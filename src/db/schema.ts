@@ -376,7 +376,7 @@ export const notificationSettings = pgTable("notification_settings", {
 
 export const invitations = pgTable("invitations", {
   id: uuid("id").defaultRandom().primaryKey(),
-  email: text("email").notNull(),
+  email: text("email"),
   role: userRoleEnum("role").notNull().default("member"),
   code: text("code").notNull().unique(),
   invitedBy: uuid("invited_by").references(() => users.id, {
