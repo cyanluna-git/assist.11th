@@ -47,6 +47,7 @@ export function useUpdateProfile(id: string) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["profile", id] });
       queryClient.invalidateQueries({ queryKey: ["profiles"] });
+      queryClient.invalidateQueries({ queryKey: ["current-user"] });
     },
   });
 }

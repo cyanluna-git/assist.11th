@@ -29,6 +29,7 @@ export interface ProfileDetail extends Profile {
 }
 
 export interface ProfileUpdatePayload {
+  name?: string;
   phone?: string;
   company?: string;
   position?: string;

@@ -20,6 +20,7 @@ export function ProfileEditForm({
   onSaved: () => void;
 }) {
   const [form, setForm] = useState<ProfileUpdatePayload>({
+    name: profile.name ?? "",
     phone: profile.phone ?? "",
     company: profile.company ?? "",
     position: profile.position ?? "",
@@ -89,6 +90,18 @@ export function ProfileEditForm({
         isUploading={uploadAvatar.isPending}
         onUpload={handleAvatarUpload}
       />
+
+      <div className="space-y-1.5">
+        <Label htmlFor="name">이름 (본명) *</Label>
+        <Input
+          id="name"
+          name="name"
+          value={form.name}
+          onChange={handleChange}
+          placeholder="본명을 입력하세요"
+          required
+        />
+      </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="space-y-1.5">

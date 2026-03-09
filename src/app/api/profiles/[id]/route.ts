@@ -64,13 +64,20 @@ export async function PATCH(
   }
 
   const body = await req.json();
-  const allowedFields = ["phone", "company", "position", "industry", "interests", "bio", "avatarUrl", "github", "portfolio", "linkedin", "careers"] as const;
+  const allowedFields = ["name", "phone", "company", "position", "industry", "interests", "bio", "avatarUrl", "github", "portfolio", "linkedin", "careers"] as const;
   const updates: Record<string, unknown> = {};
 
   for (const field of allowedFields) {
     if (body[field] !== undefined) {
       updates[field] = body[field];
     }
+  }
+
+  if (updates.name !== undefined) {
+    if (typeof updates.name !== "string" || updates.name.trim().length === 0 || updates.name.trim().length > 50) {
+      return NextResponse.json({ error: "이름은 1~50자여야 합니다" }, { status: 400 });
+    }
+    updates.name = (updates.name as string).trim();
   }
 
   if (updates.careers !== undefined && !Array.isArray(updates.careers)) {

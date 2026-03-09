@@ -14,6 +14,7 @@ export async function GET() {
 
   const user = await db
     .select({
+      name: users.name,
       company: users.company,
       position: users.position,
       bio: users.bio,
@@ -28,7 +29,7 @@ export async function GET() {
     user: {
       id: session.sub,
       email: session.email,
-      name: session.name,
+      name: user?.name ?? session.name,
       role: session.role,
       profileComplete,
     },
