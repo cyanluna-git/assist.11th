@@ -15,8 +15,8 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
-  title: "ASSIST 11기 커뮤니티",
-  description: "ASSIST 경영대학원 11기 MBA 커뮤니티 플랫폼",
+  title: "aSSiST 11기 커뮤니티",
+  description: "aSSiST 경영대학원 11기 MBA 커뮤니티 플랫폼",
 };
 
 export default function RootLayout({

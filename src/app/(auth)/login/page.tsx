@@ -91,8 +91,8 @@ export default function LoginPage() {
   return (
     <Card>
       <CardHeader className="text-center">
-        <p className="font-display text-brand text-lg font-semibold tracking-tight">
-          ASSIST 11기
+        <p className="font-display text-text-strong text-lg font-semibold tracking-tight">
+          aSSiST <span className="text-xs text-text-muted">11기</span>
         </p>
         <CardTitle className="text-xl">로그인</CardTitle>
         <CardDescription>이메일과 비밀번호를 입력해주세요</CardDescription>

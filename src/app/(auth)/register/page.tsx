@@ -121,8 +121,8 @@ export default function RegisterPage() {
   return (
     <Card>
       <CardHeader className="text-center">
-        <p className="font-display text-brand text-lg font-semibold tracking-tight">
-          ASSIST 11기
+        <p className="font-display text-text-strong text-lg font-semibold tracking-tight">
+          aSSiST <span className="text-xs text-text-muted">11기</span>
         </p>
         <CardTitle className="text-xl">회원가입</CardTitle>
         <CardDescription>초대코드와 함께 정보를 입력해주세요</CardDescription>

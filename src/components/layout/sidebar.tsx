@@ -12,8 +12,11 @@ import {
   Newspaper,
   BarChart3,
   Settings,
+  PanelLeftClose,
+  PanelLeftOpen,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useSidebar } from "@/components/providers/sidebar-provider";
 
 const navItems = [
   { href: "/", label: "홈", icon: Home },
@@ -28,15 +31,57 @@ const navItems = [
 
 export function Sidebar() {
   const pathname = usePathname();
+  const { collapsed, toggle } = useSidebar();
 
   return (
-    <aside className="fixed inset-y-0 left-0 z-40 hidden w-[72px] flex-col border-r border-line-subtle bg-surface md:flex lg:w-[272px]">
-      {/* Logo */}
-      <div className="flex h-14 items-center border-b border-line-subtle px-4 lg:px-6">
-        <Link href="/" className="font-display text-lg font-semibold text-brand">
-          <span className="hidden lg:inline">ASSIST 11기</span>
-          <span className="lg:hidden">A11</span>
+    <aside
+      className={cn(
+        "fixed inset-y-0 left-0 z-40 hidden flex-col border-r border-line-subtle bg-surface transition-[width] duration-200 md:flex",
+        collapsed ? "w-[72px]" : "w-[72px] lg:w-[272px]",
+      )}
+    >
+      {/* Logo + Collapse toggle */}
+      <div className="flex h-14 items-center justify-between border-b border-line-subtle px-4 lg:px-5">
+        <Link href="/" className="flex items-baseline gap-1 overflow-hidden">
+          <span className={cn(
+            "font-display text-lg font-semibold tracking-tight text-text-strong",
+            collapsed ? "hidden" : "hidden lg:inline",
+          )}>
+            aSSiST
+          </span>
+          <span className={cn(
+            "font-display text-lg font-semibold tracking-tight text-text-strong",
+            collapsed ? "inline" : "lg:hidden",
+          )}>
+            aS
+          </span>
+          <span className={cn(
+            "text-xs text-text-muted",
+            collapsed ? "hidden" : "hidden lg:inline",
+          )}>
+            11기
+          </span>
         </Link>
+        <button
+          onClick={toggle}
+          className={cn(
+            "hidden rounded-md p-1 text-text-muted transition-colors hover:bg-canvas hover:text-text-main",
+            collapsed ? "lg:hidden" : "lg:flex",
+          )}
+          title={collapsed ? "사이드바 열기" : "사이드바 접기"}
+        >
+          <PanelLeftClose className="size-4" />
+        </button>
+        <button
+          onClick={toggle}
+          className={cn(
+            "hidden rounded-md p-1 text-text-muted transition-colors hover:bg-canvas hover:text-text-main",
+            collapsed ? "lg:flex" : "lg:hidden",
+          )}
+          title="사이드바 열기"
+        >
+          <PanelLeftOpen className="size-4" />
+        </button>
       </div>
 
       {/* Nav */}
@@ -48,6 +93,7 @@ export function Sidebar() {
               <li key={href}>
                 <Link
                   href={href}
+                  title={label}
                   className={cn(
                     "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
                     isActive
@@ -56,7 +102,9 @@ export function Sidebar() {
                   )}
                 >
                   <Icon className="size-5 shrink-0" />
-                  <span className="hidden lg:inline">{label}</span>
+                  <span className={cn(
+                    collapsed ? "hidden" : "hidden lg:inline",
+                  )}>{label}</span>
                 </Link>
               </li>
             );
@@ -68,10 +116,13 @@ export function Sidebar() {
       <div className="border-t border-line-subtle px-2 py-3 lg:px-3">
         <Link
           href="/settings"
+          title="설정"
           className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-text-muted transition-colors hover:bg-canvas hover:text-text-main"
         >
           <Settings className="size-5 shrink-0" />
-          <span className="hidden lg:inline">설정</span>
+          <span className={cn(
+            collapsed ? "hidden" : "hidden lg:inline",
+          )}>설정</span>
         </Link>
       </div>
     </aside>

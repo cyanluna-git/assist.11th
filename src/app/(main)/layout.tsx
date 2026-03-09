@@ -4,6 +4,8 @@ import { Header } from "@/components/layout/header";
 import { Sidebar } from "@/components/layout/sidebar";
 import { MobileNav } from "@/components/layout/mobile-nav";
 import { QueryProvider } from "@/components/providers/query-provider";
+import { SidebarProvider } from "@/components/providers/sidebar-provider";
+import { MainContent } from "@/components/layout/main-content";
 
 export const dynamic = "force-dynamic";
 
@@ -19,16 +21,18 @@ export default async function MainLayout({
 
   return (
     <QueryProvider>
-      <div className="flex min-h-dvh bg-canvas">
-        <Sidebar />
-        <div className="flex flex-1 flex-col md:pl-[72px] lg:pl-[272px]">
-          <Header user={{ name: session.name, email: session.email, role: session.role }} />
-          <main className="flex-1 px-4 py-4.5 sm:px-6 sm:py-7 lg:px-10 lg:py-8.5">
-            {children}
-          </main>
-          <MobileNav />
+      <SidebarProvider>
+        <div className="flex min-h-dvh bg-canvas">
+          <Sidebar />
+          <MainContent>
+            <Header user={{ name: session.name, email: session.email, role: session.role }} />
+            <main className="flex-1 px-4 py-4.5 sm:px-6 sm:py-7 lg:px-10 lg:py-8.5">
+              {children}
+            </main>
+            <MobileNav />
+          </MainContent>
         </div>
-      </div>
+      </SidebarProvider>
     </QueryProvider>
   );
 }

@@ -20,8 +20,8 @@ export function Header({ user }: HeaderProps) {
   return (
     <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-line-subtle bg-surface px-4 sm:px-6 lg:px-10">
       <div className="flex items-center gap-3">
-        <h2 className="font-display text-lg font-semibold text-brand lg:hidden">
-          ASSIST 11기
+        <h2 className="font-display text-lg font-semibold tracking-tight text-text-strong lg:hidden">
+          aSSiST <span className="text-xs text-text-muted">11기</span>
         </h2>
       </div>
       <div className="flex items-center gap-2">
