@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { randomBytes } from "crypto";
+import { desc } from "drizzle-orm";
 
 import { db } from "@/lib/db";
 import { invitations } from "@/db/schema";
@@ -23,12 +24,14 @@ export async function GET() {
       code: invitations.code,
       email: invitations.email,
       role: invitations.role,
+      maxUses: invitations.maxUses,
+      useCount: invitations.useCount,
       usedAt: invitations.usedAt,
       expiresAt: invitations.expiresAt,
       invitedBy: invitations.invitedBy,
     })
     .from(invitations)
-    .orderBy(invitations.id);
+    .orderBy(desc(invitations.expiresAt));
 
   return NextResponse.json({ invitations: list });
 }
@@ -42,6 +45,7 @@ export async function POST(req: Request) {
   const body = await req.json().catch(() => ({}));
   const email = body.email || null;
   const role = body.role || "member";
+  const maxUses = Math.max(1, Math.min(Number(body.maxUses) || 1, 100));
   const expiresInDays = body.expiresInDays ?? 30;
 
   const code = generateCode();
@@ -53,6 +57,7 @@ export async function POST(req: Request) {
     code,
     email,
     role,
+    maxUses,
     invitedBy: session.sub,
     expiresAt,
   });
@@ -60,5 +65,5 @@ export async function POST(req: Request) {
   const baseUrl = process.env.AUTH_URL || process.env.NEXTAUTH_URL || "";
   const url = `${baseUrl}/register?code=${code}`;
 
-  return NextResponse.json({ code, url, expiresAt: expiresAt.toISOString() });
+  return NextResponse.json({ code, url, maxUses, expiresAt: expiresAt.toISOString() });
 }

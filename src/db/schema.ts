@@ -387,6 +387,8 @@ export const invitations = pgTable("invitations", {
   invitedBy: uuid("invited_by").references(() => users.id, {
     onDelete: "set null",
   }),
+  maxUses: integer("max_uses").notNull().default(1),
+  useCount: integer("use_count").notNull().default(0),
   usedAt: timestamp("used_at", { withTimezone: true }),
   expiresAt: timestamp("expires_at", { withTimezone: true }),
 });

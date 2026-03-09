@@ -12,11 +12,13 @@ import {
   Newspaper,
   BarChart3,
   Settings,
+  Shield,
   PanelLeftClose,
   PanelLeftOpen,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useSidebar } from "@/components/providers/sidebar-provider";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 const navItems = [
   { href: "/", label: "홈", icon: Home },
@@ -32,6 +34,8 @@ const navItems = [
 export function Sidebar() {
   const pathname = usePathname();
   const { collapsed, toggle } = useSidebar();
+  const { data: currentUser } = useCurrentUser();
+  const isAdmin = currentUser?.role === "admin";
 
   return (
     <aside
@@ -114,6 +118,23 @@ export function Sidebar() {
 
       {/* Footer */}
       <div className="border-t border-line-subtle px-2 py-3 lg:px-3">
+        {isAdmin && (
+          <Link
+            href="/admin"
+            title="관리자"
+            className={cn(
+              "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+              pathname.startsWith("/admin")
+                ? "bg-brand/10 text-brand"
+                : "text-text-muted hover:bg-canvas hover:text-text-main",
+            )}
+          >
+            <Shield className="size-5 shrink-0" />
+            <span className={cn(
+              collapsed ? "hidden" : "hidden lg:inline",
+            )}>관리자</span>
+          </Link>
+        )}
         <Link
           href="/settings"
           title="설정"

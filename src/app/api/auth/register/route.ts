@@ -40,9 +40,9 @@ export async function POST(req: Request) {
       );
     }
 
-    if (invitation.usedAt) {
+    if (invitation.useCount >= invitation.maxUses) {
       return NextResponse.json(
-        { error: "이미 사용된 초대코드입니다." },
+        { error: "초대코드 사용 횟수가 초과되었습니다." },
         { status: 400 },
       );
     }
@@ -81,10 +81,13 @@ export async function POST(req: Request) {
       .returning({ id: users.id, email: users.email, name: users.name, role: users.role })
       .then((rows) => rows[0]);
 
-    // Mark invitation as used
+    // Increment usage count
     await db
       .update(invitations)
-      .set({ usedAt: new Date() })
+      .set({
+        useCount: invitation.useCount + 1,
+        usedAt: new Date(),
+      })
       .where(eq(invitations.id, invitation.id));
 
     // Auto-login
