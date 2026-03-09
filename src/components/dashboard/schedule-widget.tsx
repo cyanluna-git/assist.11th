@@ -76,7 +76,7 @@ export function ScheduleWidget() {
     [now],
   );
 
-  const { data: events, isLoading } = useEvents(from, to);
+  const { data: events, isLoading, isError } = useEvents(from, to);
 
   const upcoming = useMemo(() => {
     if (!events) return [];
@@ -110,14 +110,21 @@ export function ScheduleWidget() {
           </div>
         )}
 
-        {!isLoading && upcoming.length === 0 && (
+        {!isLoading && isError && (
+          <div className="flex flex-col items-center gap-2 py-6 text-text-muted">
+            <CalendarDays className="size-8 opacity-40" />
+            <p className="text-sm">일정을 불러올 수 없습니다</p>
+          </div>
+        )}
+
+        {!isLoading && !isError && upcoming.length === 0 && (
           <div className="flex flex-col items-center gap-2 py-6 text-text-muted">
             <CalendarDays className="size-8 opacity-40" />
             <p className="text-sm">다가오는 일정이 없습니다</p>
           </div>
         )}
 
-        {!isLoading && upcoming.length > 0 && (
+        {!isLoading && !isError && upcoming.length > 0 && (
           <div className="space-y-1">
             {upcoming.map((ev) => {
               const cat = ev.category as EventCategory | null;

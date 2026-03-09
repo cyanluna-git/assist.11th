@@ -34,6 +34,8 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Invalid date range" }, { status: 400 });
   }
 
+  try {
+
   // Build conditions
   const conditions = [
     gte(events.startAt, from),
@@ -165,6 +167,14 @@ export async function GET(req: NextRequest) {
   ].sort((a, b) => new Date(a.startAt).getTime() - new Date(b.startAt).getTime());
 
   return NextResponse.json({ events: merged });
+
+  } catch (err) {
+    console.error("[events GET]", err);
+    return NextResponse.json(
+      { error: "Failed to fetch events" },
+      { status: 500 },
+    );
+  }
 }
 
 export async function POST(req: Request) {

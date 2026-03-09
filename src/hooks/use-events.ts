@@ -19,6 +19,7 @@ export function useEvents(from: string, to: string, category?: string) {
       const data = await res.json();
       return data.events;
     },
+    retry: 1,
   });
 }
 
