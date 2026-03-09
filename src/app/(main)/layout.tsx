@@ -9,6 +9,7 @@ import { MobileNav } from "@/components/layout/mobile-nav";
 import { QueryProvider } from "@/components/providers/query-provider";
 import { SidebarProvider } from "@/components/providers/sidebar-provider";
 import { MainContent } from "@/components/layout/main-content";
+import { InstallPrompt } from "@/components/pwa/install-prompt";
 
 export const dynamic = "force-dynamic";
 
@@ -43,10 +44,11 @@ export default async function MainLayout({
           <Sidebar />
           <MainContent>
             <Header user={{ id: session.sub, name: session.name, email: session.email, role: session.role }} />
-            <main className="flex-1 px-4 py-4.5 sm:px-6 sm:py-7 lg:px-10 lg:py-8.5">
+            <main className="flex-1 px-4 py-4.5 pb-20 sm:px-6 sm:py-7 md:pb-7 lg:px-10 lg:py-8.5">
               {children}
             </main>
             <MobileNav />
+            <InstallPrompt />
           </MainContent>
         </div>
       </SidebarProvider>

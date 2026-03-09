@@ -143,5 +143,40 @@
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-ui);
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* ── PWA Standalone Mode ── */
+
+/* Safe areas */
+@supports (padding-top: env(safe-area-inset-top)) {
+  body {
+    padding-top: env(safe-area-inset-top);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+}
+
+/* App-like behavior in standalone */
+@media (display-mode: standalone) {
+  html {
+    overscroll-behavior-y: none;
+  }
+  body {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  /* Re-enable selection on content areas */
+  main, textarea, input, [contenteditable] {
+    -webkit-user-select: auto;
+    user-select: auto;
+  }
+}
+
+/* Bottom nav safe area padding */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  [data-slot="mobile-nav"] {
+    padding-bottom: env(safe-area-inset-bottom);
   }
 }

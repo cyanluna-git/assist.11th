@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>오프라인 - ASSIST 11기</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Segoe UI", sans-serif;
+    background: #f3f4f6;
+    color: #16181d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100dvh;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+  .container {
+    text-align: center;
+    padding: 2rem;
+  }
+  .icon {
+    width: 64px; height: 64px; margin: 0 auto 1.5rem;
+    border-radius: 16px;
+    background: #0f4d81;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 28px; font-weight: 700;
+  }
+  h1 { font-size: 1.125rem; font-weight: 600; margin-bottom: 0.5rem; }
+  p { font-size: 0.875rem; color: #677180; line-height: 1.5; }
+  button {
+    margin-top: 1.5rem;
+    padding: 0.625rem 1.5rem;
+    background: #0f4d81; color: #fff;
+    border: none; border-radius: 8px;
+    font-size: 0.875rem; font-weight: 500;
+    cursor: pointer;
+  }
+  button:active { opacity: 0.8; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="icon">A</div>
+  <h1>오프라인 상태입니다</h1>
+  <p>인터넷 연결을 확인한 후<br>다시 시도해 주세요.</p>
+  <button onclick="location.reload()">다시 시도</button>
+</div>
+</body>
+</html>
