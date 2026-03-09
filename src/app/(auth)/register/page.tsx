@@ -38,7 +38,7 @@ function RegisterForm() {
         return;
       }
 
-      router.push("/");
+      router.push("/onboarding");
       router.refresh();
     } catch {
       setError("서버에 연결할 수 없습니다.");

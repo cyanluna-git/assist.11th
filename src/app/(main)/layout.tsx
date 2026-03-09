@@ -1,5 +1,8 @@
 import { redirect } from "next/navigation";
+import { eq } from "drizzle-orm";
 import { getSession } from "@/lib/auth";
+import { db } from "@/lib/db";
+import { users } from "@/db/schema";
 import { Header } from "@/components/layout/header";
 import { Sidebar } from "@/components/layout/sidebar";
 import { MobileNav } from "@/components/layout/mobile-nav";
@@ -17,6 +20,20 @@ export default async function MainLayout({
   const session = await getSession();
   if (!session) {
     redirect("/login");
+  }
+
+  const profile = await db
+    .select({
+      company: users.company,
+      position: users.position,
+      bio: users.bio,
+    })
+    .from(users)
+    .where(eq(users.id, session.sub))
+    .then((rows) => rows[0] ?? null);
+
+  if (!profile?.company || !profile?.position || !profile?.bio) {
+    redirect("/onboarding");
   }
 
   return (
