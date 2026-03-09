@@ -2,8 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { eq, asc } from "drizzle-orm";
 
 import { db } from "@/lib/db";
-import { comments, users } from "@/db/schema";
+import { comments, posts, users } from "@/db/schema";
 import { getSession } from "@/lib/auth";
+import { createNotification } from "@/lib/notifications";
 
 export const dynamic = "force-dynamic";
 
@@ -61,6 +62,49 @@ export async function POST(
       parentId: parentId || null,
     })
     .returning();
+
+  // Fire-and-forget: send notifications
+  try {
+    if (parentId) {
+      // Reply → notify parent comment author
+      const parentComment = await db
+        .select({ authorId: comments.authorId })
+        .from(comments)
+        .where(eq(comments.id, parentId))
+        .then((rows) => rows[0] ?? null);
+
+      if (parentComment) {
+        await createNotification({
+          type: "reply",
+          actorId: session.sub,
+          targetUserId: parentComment.authorId,
+          title: `${session.name}님이 회원님의 댓글에 답글을 남겼습니다`,
+          message: content.slice(0, 100),
+          link: `/posts/${postId}`,
+        });
+      }
+    } else {
+      // Top-level comment → notify post author
+      const post = await db
+        .select({ authorId: posts.authorId })
+        .from(posts)
+        .where(eq(posts.id, postId))
+        .then((rows) => rows[0] ?? null);
+
+      if (post) {
+        await createNotification({
+          type: "comment",
+          actorId: session.sub,
+          targetUserId: post.authorId,
+          title: `${session.name}님이 회원님의 글에 댓글을 남겼습니다`,
+          message: content.slice(0, 100),
+          link: `/posts/${postId}`,
+        });
+      }
+    }
+  } catch {
+    // Notification failure must not block the response
+  }
 
   return NextResponse.json({ comment: newComment[0] }, { status: 201 });
 }

@@ -4,6 +4,7 @@ import { eq, desc, sql } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { posts, users } from "@/db/schema";
 import { getSession } from "@/lib/auth";
+import { createBulkNotifications, getAllUserIds } from "@/lib/notifications";
 
 type BoardType = "notice" | "free" | "column";
 const validBoardTypes: BoardType[] = ["notice", "free", "column"];
@@ -80,6 +81,23 @@ export async function POST(req: Request) {
       authorId: session.sub,
     })
     .returning();
+
+  // Fire-and-forget: notify all users on notice posts
+  if (boardType === "notice") {
+    try {
+      const allIds = await getAllUserIds();
+      await createBulkNotifications({
+        type: "notice",
+        actorId: session.sub,
+        targetUserIds: allIds,
+        title: `[공지] ${title}`,
+        message: (content as string).slice(0, 100),
+        link: `/posts/${newPost[0].id}`,
+      });
+    } catch {
+      // Notification failure must not block the response
+    }
+  }
 
   return NextResponse.json({ post: newPost[0] }, { status: 201 });
 }

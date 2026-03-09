@@ -4,6 +4,7 @@ import { eq, desc, sql, and, lte } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { polls, pollOptions, pollVotes, users } from "@/db/schema";
 import { getSession } from "@/lib/auth";
+import { createBulkNotifications, getAllUserIds } from "@/lib/notifications";
 
 export const dynamic = "force-dynamic";
 
@@ -125,6 +126,20 @@ export async function POST(req: Request) {
     .insert(pollOptions)
     .values(optionValues)
     .returning();
+
+  // Fire-and-forget: notify all users about new poll
+  try {
+    const allIds = await getAllUserIds();
+    await createBulkNotifications({
+      type: "poll",
+      actorId: session.sub,
+      targetUserIds: allIds,
+      title: `새 투표: ${title.trim()}`,
+      link: `/polls/${newPoll.id}`,
+    });
+  } catch {
+    // Notification failure must not block the response
+  }
 
   return NextResponse.json(
     { poll: { ...newPoll, options: newOptions } },

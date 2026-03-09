@@ -4,7 +4,7 @@ import { jwtVerify } from "jose";
 const COOKIE_NAME = "session-token";
 
 const PUBLIC_PATHS = ["/login", "/register"];
-const PUBLIC_API_PATHS = ["/api/auth/login", "/api/auth/logout", "/api/auth/register"];
+const PUBLIC_API_PATHS = ["/api/auth/login", "/api/auth/logout", "/api/auth/register", "/api/cron/"];
 
 function getSecret() {
   const secret = process.env.AUTH_SECRET;
