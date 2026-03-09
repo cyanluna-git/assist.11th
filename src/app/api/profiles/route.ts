@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ilike, or } from "drizzle-orm";
+import { and, ilike, isNotNull, ne, or } from "drizzle-orm";
 
 import { db } from "@/lib/db";
 import { users } from "@/db/schema";
@@ -14,6 +14,7 @@ export async function GET(req: NextRequest) {
   }
 
   const search = req.nextUrl.searchParams.get("search");
+  const completed = req.nextUrl.searchParams.get("completed");
 
   let query = db
     .select({
@@ -36,15 +37,32 @@ export async function GET(req: NextRequest) {
     .from(users)
     .$dynamic();
 
+  const conditions = [];
+
+  if (completed === "true") {
+    conditions.push(
+      isNotNull(users.company),
+      ne(users.company, ""),
+      isNotNull(users.position),
+      ne(users.position, ""),
+      isNotNull(users.bio),
+      ne(users.bio, ""),
+    );
+  }
+
   if (search) {
     const pattern = `%${search}%`;
-    query = query.where(
+    conditions.push(
       or(
         ilike(users.name, pattern),
         ilike(users.company, pattern),
         ilike(users.industry, pattern),
       ),
     );
+  }
+
+  if (conditions.length > 0) {
+    query = query.where(and(...conditions));
   }
 
   const profiles = await query.orderBy(users.name);
