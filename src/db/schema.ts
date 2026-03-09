@@ -7,6 +7,7 @@ import {
   boolean,
   timestamp,
   jsonb,
+  unique,
 } from "drizzle-orm/pg-core";
 
 // ────────────────────────────────────────────────────────
@@ -233,22 +234,32 @@ export const events = pgTable("events", {
   category: text("category"),
   isRecurring: boolean("is_recurring").notNull().default(false),
   recurrenceRule: text("recurrence_rule"),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
 });
 
 // ────────────────────────────────────────────────────────
 // 12. event_rsvps
 // ────────────────────────────────────────────────────────
 
-export const eventRsvps = pgTable("event_rsvps", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  eventId: uuid("event_id")
-    .notNull()
-    .references(() => events.id, { onDelete: "cascade" }),
-  userId: uuid("user_id")
-    .notNull()
-    .references(() => users.id, { onDelete: "cascade" }),
-  status: rsvpStatusEnum("status").notNull(),
-});
+export const eventRsvps = pgTable(
+  "event_rsvps",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    eventId: uuid("event_id")
+      .notNull()
+      .references(() => events.id, { onDelete: "cascade" }),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    status: rsvpStatusEnum("status").notNull(),
+  },
+  (t) => [unique("event_rsvps_event_user_unique").on(t.eventId, t.userId)],
+);
 
 // ────────────────────────────────────────────────────────
 // 13. polls
@@ -264,6 +275,9 @@ export const polls = pgTable("polls", {
   isMultiple: boolean("is_multiple").notNull().default(false),
   isAnonymous: boolean("is_anonymous").notNull().default(false),
   closesAt: timestamp("closes_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
 });
 
 // ────────────────────────────────────────────────────────
@@ -282,15 +296,22 @@ export const pollOptions = pgTable("poll_options", {
 // 15. poll_votes
 // ────────────────────────────────────────────────────────
 
-export const pollVotes = pgTable("poll_votes", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  pollOptionId: uuid("poll_option_id")
-    .notNull()
-    .references(() => pollOptions.id, { onDelete: "cascade" }),
-  userId: uuid("user_id")
-    .notNull()
-    .references(() => users.id, { onDelete: "cascade" }),
-});
+export const pollVotes = pgTable(
+  "poll_votes",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    pollOptionId: uuid("poll_option_id")
+      .notNull()
+      .references(() => pollOptions.id, { onDelete: "cascade" }),
+    userId: uuid("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (t) => [unique("poll_votes_option_user_unique").on(t.pollOptionId, t.userId)],
+);
 
 // ────────────────────────────────────────────────────────
 // 16. groups
