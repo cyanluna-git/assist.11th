@@ -2,15 +2,16 @@
 
 import { Building2, Github, Linkedin } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useImageColor } from "@/hooks/use-image-color";
 import type { Profile } from "@/types/profile";
 
-const COLORS = [
-  "from-brand to-brand-dark",
-  "from-[#0A66C2] to-[#004182]",
-  "from-accent-gold to-[#b8860b]",
-  "from-[#2d3436] to-[#636e72]",
-  "from-[#6c5ce7] to-[#a29bfe]",
-  "from-success to-[#00695c]",
+const FALLBACK_COLORS = [
+  ["#0f4d81", "#0d4472"],
+  ["#0A66C2", "#004182"],
+  ["#ad7b2f", "#b8860b"],
+  ["#2d3436", "#636e72"],
+  ["#6c5ce7", "#a29bfe"],
+  ["#1c8b57", "#00695c"],
 ] as const;
 
 function hashName(name: string): number {
@@ -36,7 +37,10 @@ export function DirectoryCard({
   profile: Profile;
   onClick: () => void;
 }) {
-  const gradient = COLORS[hashName(profile.name) % COLORS.length];
+  const imageColors = useImageColor(profile.avatarUrl);
+  const fallback = FALLBACK_COLORS[hashName(profile.name) % FALLBACK_COLORS.length];
+  const primary = imageColors?.primary ?? fallback[0];
+  const dark = imageColors?.dark ?? fallback[1];
 
   return (
     <button
@@ -44,14 +48,15 @@ export function DirectoryCard({
       onClick={onClick}
       className="group relative flex flex-col overflow-hidden rounded-xl bg-card text-left ring-1 ring-foreground/10 transition-all duration-300 hover:ring-brand/30 hover:shadow-xl hover:shadow-brand/5"
     >
-      {/* Top gradient banner — like ID badge header */}
-      <div className={cn("relative h-20 w-full bg-gradient-to-br", gradient)}>
-        {/* Subtle pattern overlay */}
+      {/* Top gradient banner */}
+      <div
+        className="relative h-20 w-full"
+        style={{ background: `linear-gradient(135deg, ${primary}, ${dark})` }}
+      >
         <div className="absolute inset-0 opacity-10" style={{
           backgroundImage: "radial-gradient(circle at 20% 50%, white 1px, transparent 1px), radial-gradient(circle at 80% 20%, white 1px, transparent 1px)",
           backgroundSize: "40px 40px",
         }} />
-        {/* Social icons on banner */}
         <div className="absolute right-3 top-3 flex items-center gap-1.5">
           {profile.github && (
             <div className="rounded-full bg-white/20 p-1">
@@ -66,7 +71,7 @@ export function DirectoryCard({
         </div>
       </div>
 
-      {/* Photo — rectangular, overlapping the banner like an ID badge */}
+      {/* Photo */}
       <div className="relative mx-auto -mt-10 flex w-full flex-col items-center px-5">
         <div className="relative overflow-hidden rounded-lg ring-3 ring-card shadow-lg" style={{ width: 72, height: 90 }}>
           {profile.avatarUrl ? (
@@ -74,12 +79,13 @@ export function DirectoryCard({
               src={profile.avatarUrl}
               alt={profile.name}
               className="size-full object-cover"
+              crossOrigin="anonymous"
             />
           ) : (
-            <div className={cn(
-              "flex size-full items-center justify-center bg-gradient-to-br text-2xl font-semibold text-white",
-              gradient,
-            )}>
+            <div
+              className="flex size-full items-center justify-center text-2xl font-semibold text-white"
+              style={{ background: `linear-gradient(135deg, ${primary}, ${dark})` }}
+            >
               {getInitials(profile.name)}
             </div>
           )}
@@ -112,7 +118,10 @@ export function DirectoryCard({
       </div>
 
       {/* Bottom accent line */}
-      <div className={cn("h-0.5 w-full bg-gradient-to-r opacity-0 transition-opacity duration-300 group-hover:opacity-100", gradient)} />
+      <div
+        className="h-0.5 w-full opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        style={{ background: `linear-gradient(to right, ${primary}, ${dark})` }}
+      />
     </button>
   );
 }

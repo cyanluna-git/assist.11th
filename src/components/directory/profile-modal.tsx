@@ -6,18 +6,18 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useProfile } from "@/hooks/use-profiles";
+import { useImageColor } from "@/hooks/use-image-color";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Mail, Building2, Briefcase, Tag, Heart, Github, Linkedin, Globe, ExternalLink } from "lucide-react";
-import { cn } from "@/lib/utils";
 import type { CareerEntry } from "@/types/profile";
 
-const COLORS = [
-  "from-brand to-brand-dark",
-  "from-[#0A66C2] to-[#004182]",
-  "from-accent-gold to-[#b8860b]",
-  "from-[#2d3436] to-[#636e72]",
-  "from-[#6c5ce7] to-[#a29bfe]",
-  "from-success to-[#00695c]",
+const FALLBACK_COLORS = [
+  ["#0f4d81", "#0d4472"],
+  ["#0A66C2", "#004182"],
+  ["#ad7b2f", "#b8860b"],
+  ["#2d3436", "#636e72"],
+  ["#6c5ce7", "#a29bfe"],
+  ["#1c8b57", "#00695c"],
 ] as const;
 
 function hashName(name: string): number {
@@ -62,10 +62,12 @@ export function ProfileModal({
   onOpenChange: (open: boolean) => void;
 }) {
   const { data: profile, isLoading } = useProfile(profileId ?? "");
-
-  const gradient = profile
-    ? COLORS[hashName(profile.name) % COLORS.length]
-    : COLORS[0];
+  const imageColors = useImageColor(profile?.avatarUrl);
+  const fallback = profile
+    ? FALLBACK_COLORS[hashName(profile.name) % FALLBACK_COLORS.length]
+    : FALLBACK_COLORS[0];
+  const primary = imageColors?.primary ?? fallback[0];
+  const dark = imageColors?.dark ?? fallback[1];
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -79,7 +81,10 @@ export function ProfileModal({
         ) : (
           <div className="flex flex-col overflow-y-auto" style={{ maxHeight: "85vh" }}>
             {/* Hero banner */}
-            <div className={cn("relative h-28 shrink-0 bg-gradient-to-br", gradient)}>
+            <div
+              className="relative h-28 shrink-0"
+              style={{ background: `linear-gradient(135deg, ${primary}, ${dark})` }}
+            >
               <div className="absolute inset-0 opacity-10" style={{
                 backgroundImage: "radial-gradient(circle at 25% 50%, white 1px, transparent 1px), radial-gradient(circle at 75% 30%, white 1px, transparent 1px)",
                 backgroundSize: "30px 30px",
@@ -94,12 +99,13 @@ export function ProfileModal({
                     src={profile.avatarUrl}
                     alt={profile.name}
                     className="size-full object-cover"
+                    crossOrigin="anonymous"
                   />
                 ) : (
-                  <div className={cn(
-                    "flex size-full items-center justify-center bg-gradient-to-br text-3xl font-bold text-white",
-                    gradient,
-                  )}>
+                  <div
+                    className="flex size-full items-center justify-center text-3xl font-bold text-white"
+                    style={{ background: `linear-gradient(135deg, ${primary}, ${dark})` }}
+                  >
                     {getInitials(profile.name)}
                   </div>
                 )}
@@ -232,7 +238,10 @@ export function ProfileModal({
                       className="relative rounded-lg border border-foreground/5 bg-muted/30 px-4 py-3 pl-7"
                     >
                       {/* Timeline dot */}
-                      <div className={cn("absolute left-3 top-4 size-2 rounded-full bg-gradient-to-br", gradient)} />
+                      <div
+                        className="absolute left-3 top-4 size-2 rounded-full"
+                        style={{ background: `linear-gradient(135deg, ${primary}, ${dark})` }}
+                      />
                       <p className="text-xs font-semibold text-text-strong">{career.company}</p>
                       <p className="text-xs text-text-main">{career.position}</p>
                       <p className="mt-0.5 text-[10px] text-text-subtle">
