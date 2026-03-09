@@ -69,7 +69,7 @@ export function ProfileModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[85vh] overflow-hidden p-0 sm:max-w-md">
+      <DialogContent className="max-h-[85vh] overflow-hidden bg-white p-0 sm:max-w-md">
         <DialogTitle className="sr-only">
           {profile?.name ?? "프로필"}
         </DialogTitle>
