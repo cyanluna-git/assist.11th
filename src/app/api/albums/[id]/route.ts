@@ -143,9 +143,10 @@ export async function DELETE(
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  // Get all photos to delete from R2
+  // Get all photos belonging to this album (to delete from R2)
   const albumPhotos = await db
     .select({
+      id: photos.id,
       imageUrl: photos.imageUrl,
       thumbnailUrl: photos.thumbnailUrl,
     })
@@ -161,8 +162,16 @@ export async function DELETE(
     if (thumbKey) keysToDelete.push(thumbKey);
   }
 
-  // Delete album from DB (cascade deletes photos rows)
+  // Delete album from DB (photos.album_id will be SET NULL)
   await db.delete(albums).where(eq(albums.id, id));
+
+  // Delete the now-orphaned photo rows and their R2 files
+  // Photos that had album_id = this album now have album_id = NULL
+  // We delete the photo rows for the photos that belonged to this album
+  const photoIds = albumPhotos.map((p) => p.id);
+  for (const photoId of photoIds) {
+    await db.delete(photos).where(eq(photos.id, photoId));
+  }
 
   // Delete files from R2 (best-effort, don't fail the request)
   try {

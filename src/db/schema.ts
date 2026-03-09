@@ -268,15 +268,34 @@ export const albums = pgTable("albums", {
 
 export const photos = pgTable("photos", {
   id: uuid("id").defaultRandom().primaryKey(),
-  albumId: uuid("album_id")
-    .notNull()
-    .references(() => albums.id, { onDelete: "cascade" }),
+  albumId: uuid("album_id").references(() => albums.id, {
+    onDelete: "set null",
+  }),
   uploaderId: uuid("uploader_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
   imageUrl: text("image_url").notNull(),
   thumbnailUrl: text("thumbnail_url").notNull(),
   caption: text("caption"),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+});
+
+// ────────────────────────────────────────────────────────
+// 10-1. photo_comments
+// ────────────────────────────────────────────────────────
+
+export const photoComments = pgTable("photo_comments", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  photoId: uuid("photo_id")
+    .notNull()
+    .references(() => photos.id, { onDelete: "cascade" }),
+  authorId: uuid("author_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  parentId: uuid("parent_id"),
+  content: text("content").notNull(),
   createdAt: timestamp("created_at", { withTimezone: true })
     .notNull()
     .defaultNow(),
