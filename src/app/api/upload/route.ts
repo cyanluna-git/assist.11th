@@ -1,7 +1,22 @@
 import { NextResponse } from "next/server";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSession } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
+
+function getR2Client() {
+  const accountId = process.env.R2_ACCOUNT_ID;
+  const accessKeyId = process.env.R2_ACCESS_KEY_ID;
+  const secretAccessKey = process.env.R2_SECRET_ACCESS_KEY;
+
+  if (!accountId || !accessKeyId || !secretAccessKey) return null;
+
+  return new S3Client({
+    region: "auto",
+    endpoint: `https://${accountId}.r2.cloudflarestorage.com`,
+    credentials: { accessKeyId, secretAccessKey },
+  });
+}
 
 export async function POST(req: Request) {
   const session = await getSession();
@@ -26,15 +41,11 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Invalid file type" }, { status: 400 });
   }
 
-  // Check for R2 credentials
-  const accountId = process.env.R2_ACCOUNT_ID;
-  const accessKeyId = process.env.R2_ACCESS_KEY_ID;
-  const secretAccessKey = process.env.R2_SECRET_ACCESS_KEY;
   const bucketName = process.env.R2_BUCKET_NAME;
   const publicUrl = process.env.R2_PUBLIC_URL;
+  const client = getR2Client();
 
-  if (!accountId || !accessKeyId || !secretAccessKey || !bucketName) {
-    // Fallback: return a placeholder URL for dev without R2
+  if (!client || !bucketName) {
     return NextResponse.json({
       url: `/api/placeholder-image?name=${encodeURIComponent(file.name)}`,
       warning: "R2 not configured, using placeholder",
@@ -47,26 +58,18 @@ export async function POST(req: Request) {
 
     const buffer = Buffer.from(await file.arrayBuffer());
 
-    // Use R2 S3-compatible API
-    const endpoint = `https://${accountId}.r2.cloudflarestorage.com`;
-    const url = `${endpoint}/${bucketName}/${key}`;
+    await client.send(
+      new PutObjectCommand({
+        Bucket: bucketName,
+        Key: key,
+        Body: buffer,
+        ContentType: file.type,
+      }),
+    );
 
-    const response = await fetch(url, {
-      method: "PUT",
-      headers: {
-        "Content-Type": file.type,
-        "X-Amz-Content-Sha256": "UNSIGNED-PAYLOAD",
-      },
-      body: buffer,
-    });
+    const fileUrl = publicUrl ? `${publicUrl}/${key}` : key;
 
-    if (!response.ok) {
-      throw new Error(`R2 upload failed: ${response.status}`);
-    }
-
-    const publicFileUrl = publicUrl ? `${publicUrl}/${key}` : url;
-
-    return NextResponse.json({ url: publicFileUrl });
+    return NextResponse.json({ url: fileUrl });
   } catch (err) {
     console.error("Upload error:", err);
     return NextResponse.json({ error: "Upload failed" }, { status: 500 });
