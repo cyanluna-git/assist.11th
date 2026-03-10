@@ -51,7 +51,18 @@ export async function GET(req: NextRequest) {
     .limit(limit)
     .offset(offset);
 
-  return NextResponse.json({ theses: result });
+  const theses = result.map(({ authorName, authorAvatar, ...r }) => ({
+    ...r,
+    author: {
+      id: r.authorId,
+      name: authorName ?? "알 수 없음",
+      image: authorAvatar ?? null,
+    },
+    avgRating: Number(r.avgRating),
+    reviewCount: Number(r.reviewCount),
+  }));
+
+  return NextResponse.json({ theses });
 }
 
 export async function POST(req: Request) {

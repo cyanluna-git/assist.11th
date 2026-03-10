@@ -46,7 +46,19 @@ export async function GET(
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
-  return NextResponse.json({ thesis: result });
+  const { authorName, authorAvatar, ...rest } = result;
+  const thesisData = {
+    ...rest,
+    author: {
+      id: rest.authorId,
+      name: authorName ?? "알 수 없음",
+      image: authorAvatar ?? null,
+    },
+    avgRating: Number(rest.avgRating),
+    reviewCount: Number(rest.reviewCount),
+  };
+
+  return NextResponse.json({ thesis: thesisData });
 }
 
 export async function PATCH(
