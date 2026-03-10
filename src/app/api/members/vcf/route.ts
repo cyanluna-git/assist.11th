@@ -53,7 +53,8 @@ function toVcard(user: {
     lines.push(`EMAIL;TYPE=INTERNET:${user.email}`);
   }
 
-  lines.push("NOTE:aSSiST 11기 원우");
+  lines.push("NOTE:aSSiST AI전략경영 11기");
+  lines.push("CATEGORIES:aSSiST AI전략경영 11기");
   lines.push("END:VCARD");
 
   return lines.join("\r\n");
