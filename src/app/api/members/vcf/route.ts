@@ -53,6 +53,7 @@ async function fetchPhotoBase64(
 }
 
 async function toVcard(user: {
+  id: string;
   name: string;
   email: string;
   phone: string | null;
@@ -62,6 +63,8 @@ async function toVcard(user: {
 }): Promise<string> {
   const lines = ["BEGIN:VCARD", "VERSION:3.0"];
 
+  // UID allows contact apps to update existing contact instead of duplicating
+  lines.push(`UID:assist11th-${user.id}`);
   lines.push(`FN:${escapeVcard(user.name)}`);
   lines.push(`N:${escapeVcard(user.name)};;;;`);
 
@@ -104,6 +107,7 @@ export async function GET() {
 
   const members = await db
     .select({
+      id: users.id,
       name: users.name,
       email: users.email,
       phone: users.phone,
