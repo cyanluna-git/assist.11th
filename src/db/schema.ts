@@ -226,6 +226,7 @@ export const thesis = pgTable("thesis", {
     .references(() => users.id, { onDelete: "cascade" }),
   title: text("title").notNull(),
   abstract: text("abstract"),
+  summary: text("summary"),
   field: text("field"),
   status: thesisStatusEnum("status").notNull().default("draft"),
   fileUrl: text("file_url"),
@@ -264,6 +265,29 @@ export const thesisReviews = pgTable(
       t.reviewerId,
     ),
   ],
+);
+
+// ────────────────────────────────────────────────────────
+// 8-1. thesis_artifacts
+// ────────────────────────────────────────────────────────
+
+export const thesisArtifacts = pgTable(
+  "thesis_artifacts",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    thesisId: uuid("thesis_id")
+      .notNull()
+      .references(() => thesis.id, { onDelete: "cascade" }),
+    artifactType: text("artifact_type").notNull(),
+    fileUrl: text("file_url"),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (t) => [unique().on(t.thesisId, t.artifactType)],
 );
 
 // ────────────────────────────────────────────────────────

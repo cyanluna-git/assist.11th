@@ -265,6 +265,72 @@ export function useUpdateReview(thesisId: string, reviewId: string) {
   });
 }
 
+// ── Save Thesis Summary ──
+
+export function useSaveThesisSummary(id: string) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (summary: string) => {
+      const res = await fetch(`/api/theses/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ summary }),
+      });
+      if (!res.ok) throw new Error("Failed to save summary");
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["thesis", id] });
+    },
+  });
+}
+
+// ── Upload Thesis Artifact ──
+
+export function useUploadThesisArtifact(thesisId: string) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ file, artifactType }: { file: File; artifactType: string }) => {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("artifactType", artifactType);
+      const res = await fetch(`/api/theses/${thesisId}/artifacts`, {
+        method: "POST",
+        body: formData,
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Upload failed");
+      }
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["thesis", thesisId] });
+    },
+  });
+}
+
+// ── Delete Thesis Artifact ──
+
+export function useDeleteThesisArtifact(thesisId: string) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (artifactId: string) => {
+      const res = await fetch(`/api/theses/${thesisId}/artifacts/${artifactId}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) throw new Error("Failed to delete artifact");
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["thesis", thesisId] });
+    },
+  });
+}
+
 // ── Delete Review ──
 
 export function useDeleteReview(thesisId: string) {

@@ -69,6 +69,35 @@ export const FIELD_MAP = Object.fromEntries(
   THESIS_FIELDS.map((f) => [f.value, f]),
 ) as Record<string, (typeof THESIS_FIELDS)[number]>;
 
+export type ThesisArtifactType =
+  | "SUMMARY"
+  | "SLIDES"
+  | "INFOGRAPHIC"
+  | "AUDIO"
+  | "MINDMAP";
+
+export const THESIS_ARTIFACT_DEFINITIONS: {
+  type: ThesisArtifactType;
+  label: string;
+  extensions: string[];
+  accept: string;
+}[] = [
+  { type: "SUMMARY", label: "요약 자료", extensions: [".md", ".txt", ".pdf"], accept: ".md,.txt,.pdf" },
+  { type: "SLIDES", label: "슬라이드", extensions: [".pdf", ".pptx", ".key"], accept: ".pdf,.pptx,.key" },
+  { type: "INFOGRAPHIC", label: "인포그래픽", extensions: [".png", ".jpg", ".jpeg", ".webp", ".pdf"], accept: ".png,.jpg,.jpeg,.webp,.pdf" },
+  { type: "AUDIO", label: "오디오 요약", extensions: [".mp3", ".m4a", ".wav", ".aac"], accept: ".mp3,.m4a,.wav,.aac" },
+  { type: "MINDMAP", label: "마인드맵", extensions: [".png", ".jpg", ".jpeg", ".webp", ".pdf"], accept: ".png,.jpg,.jpeg,.webp,.pdf" },
+];
+
+export interface ThesisArtifact {
+  id: string;
+  thesisId: string;
+  artifactType: ThesisArtifactType;
+  fileUrl: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface ThesisSummary {
   id: string;
   title: string;
@@ -88,6 +117,8 @@ export interface ThesisSummary {
 }
 
 export interface ThesisDetail extends ThesisSummary {
+  summary: string | null;
+  artifacts: ThesisArtifact[];
   updatedAt: string;
 }
 

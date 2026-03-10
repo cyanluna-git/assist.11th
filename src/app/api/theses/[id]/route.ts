@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { eq, sql } from "drizzle-orm";
 
 import { db } from "@/lib/db";
-import { thesis, users, thesisReviews } from "@/db/schema";
+import { thesis, users, thesisReviews, thesisArtifacts } from "@/db/schema";
 import { getSession } from "@/lib/auth";
 import { deleteFromR2, extractKeyFromUrl } from "@/lib/storage";
 
@@ -19,28 +19,35 @@ export async function GET(
 
   const { id } = await params;
 
-  const result = await db
-    .select({
-      id: thesis.id,
-      title: thesis.title,
-      abstract: thesis.abstract,
-      field: thesis.field,
-      status: thesis.status,
-      fileUrl: thesis.fileUrl,
-      createdAt: thesis.createdAt,
-      updatedAt: thesis.updatedAt,
-      authorId: thesis.authorId,
-      authorName: users.name,
-      authorAvatar: users.avatarUrl,
-      avgRating: sql<number>`coalesce(avg(${thesisReviews.rating}), 0)`,
-      reviewCount: sql<number>`count(${thesisReviews.id})`,
-    })
-    .from(thesis)
-    .leftJoin(users, eq(thesis.authorId, users.id))
-    .leftJoin(thesisReviews, eq(thesis.id, thesisReviews.thesisId))
-    .where(eq(thesis.id, id))
-    .groupBy(thesis.id, users.name, users.avatarUrl)
-    .then((rows) => rows[0] ?? null);
+  const [result, artifacts] = await Promise.all([
+    db
+      .select({
+        id: thesis.id,
+        title: thesis.title,
+        abstract: thesis.abstract,
+        summary: thesis.summary,
+        field: thesis.field,
+        status: thesis.status,
+        fileUrl: thesis.fileUrl,
+        createdAt: thesis.createdAt,
+        updatedAt: thesis.updatedAt,
+        authorId: thesis.authorId,
+        authorName: users.name,
+        authorAvatar: users.avatarUrl,
+        avgRating: sql<number>`coalesce(avg(${thesisReviews.rating}), 0)`,
+        reviewCount: sql<number>`count(${thesisReviews.id})`,
+      })
+      .from(thesis)
+      .leftJoin(users, eq(thesis.authorId, users.id))
+      .leftJoin(thesisReviews, eq(thesis.id, thesisReviews.thesisId))
+      .where(eq(thesis.id, id))
+      .groupBy(thesis.id, users.name, users.avatarUrl)
+      .then((rows) => rows[0] ?? null),
+    db
+      .select()
+      .from(thesisArtifacts)
+      .where(eq(thesisArtifacts.thesisId, id)),
+  ]);
 
   if (!result) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
@@ -56,6 +63,7 @@ export async function GET(
     },
     avgRating: Number(rest.avgRating),
     reviewCount: Number(rest.reviewCount),
+    artifacts,
   };
 
   return NextResponse.json({ thesis: thesisData });
@@ -96,6 +104,7 @@ export async function PATCH(
     updates.title = body.title;
   }
   if (body.abstract !== undefined) updates.abstract = body.abstract;
+  if (body.summary !== undefined) updates.summary = body.summary || null;
   if (body.field !== undefined) updates.field = body.field;
   if (body.status !== undefined) {
     if (!["draft", "submitted", "reviewed"].includes(body.status)) {
