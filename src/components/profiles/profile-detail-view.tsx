@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Mail, Phone, Building2, Briefcase, Tag, Heart, Pencil, Github, Linkedin, Globe, ExternalLink } from "lucide-react";
 import type { ProfileDetail, CareerEntry } from "@/types/profile";
+import { DigitalCardSection } from "@/components/profiles/digital-card-section";
 
 function InfoRow({
   icon: Icon,
@@ -164,6 +165,9 @@ export function ProfileDetailView({
           </div>
         </div>
       )}
+
+      {/* Digital Card */}
+      <DigitalCardSection profile={profile} />
     </div>
   );
 }
