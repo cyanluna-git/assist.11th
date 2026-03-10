@@ -6,6 +6,8 @@ import { useDebounce } from "@/hooks/use-debounce";
 import { ProfileCard } from "@/components/profiles/profile-card";
 import { ProfileSearchBar } from "@/components/profiles/profile-search-bar";
 import { ProfileCardSkeleton } from "@/components/profiles/profile-card-skeleton";
+import { Button } from "@/components/ui/button";
+import { Download } from "lucide-react";
 
 export function ProfilesPageClient() {
   const [search, setSearch] = useState("");
@@ -19,8 +21,16 @@ export function ProfilesPageClient() {
           <h1 className="text-xl font-semibold text-text-strong">프로필 디렉토리</h1>
           <p className="mt-1 text-sm text-text-muted">ASSIST 11기 원우 프로필</p>
         </div>
-        <div className="w-full sm:w-72">
-          <ProfileSearchBar value={search} onChange={setSearch} />
+        <div className="flex items-center gap-2">
+          <div className="w-full sm:w-72">
+            <ProfileSearchBar value={search} onChange={setSearch} />
+          </div>
+          <a href="/api/members/vcf" download="assist11th-contacts.vcf">
+            <Button variant="outline" size="sm" className="shrink-0 gap-1.5">
+              <Download className="size-3.5" />
+              주소록
+            </Button>
+          </a>
         </div>
       </div>
 
