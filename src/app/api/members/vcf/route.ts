@@ -8,7 +8,6 @@ export const dynamic = "force-dynamic";
 
 function cleanPhone(phone: string | null): string {
   if (!phone) return "";
-  // Normalize to digits only, then format as 010-XXXX-XXXX
   const digits = phone.replace(/\D/g, "");
   if (digits.length === 11 && digits.startsWith("010")) {
     return `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7)}`;
@@ -24,14 +23,43 @@ function escapeVcard(value: string): string {
     .replace(/\n/g, "\\n");
 }
 
-function toVcard(user: {
+// vCard line folding: max 75 chars per line, fold with CRLF + space
+function foldLine(line: string): string {
+  if (line.length <= 75) return line;
+  const chunks: string[] = [];
+  chunks.push(line.slice(0, 75));
+  let i = 75;
+  while (i < line.length) {
+    chunks.push(" " + line.slice(i, i + 74));
+    i += 74;
+  }
+  return chunks.join("\r\n");
+}
+
+async function fetchPhotoBase64(
+  url: string,
+): Promise<{ data: string; type: string } | null> {
+  try {
+    const res = await fetch(url, { signal: AbortSignal.timeout(5000) });
+    if (!res.ok) return null;
+    const contentType = res.headers.get("content-type") || "image/jpeg";
+    const type = contentType.split(";")[0].split("/")[1]?.toUpperCase() || "JPEG";
+    const buffer = await res.arrayBuffer();
+    const data = Buffer.from(buffer).toString("base64");
+    return { data, type };
+  } catch {
+    return null;
+  }
+}
+
+async function toVcard(user: {
   name: string;
   email: string;
   phone: string | null;
   company: string | null;
   position: string | null;
   avatarUrl: string | null;
-}): string {
+}): Promise<string> {
   const lines = ["BEGIN:VCARD", "VERSION:3.0"];
 
   lines.push(`FN:${escapeVcard(user.name)}`);
@@ -51,6 +79,14 @@ function toVcard(user: {
 
   if (user.email) {
     lines.push(`EMAIL;TYPE=INTERNET:${user.email}`);
+  }
+
+  // Embed photo as base64 if available
+  if (user.avatarUrl?.startsWith("http")) {
+    const photo = await fetchPhotoBase64(user.avatarUrl);
+    if (photo) {
+      lines.push(foldLine(`PHOTO;ENCODING=b;TYPE=${photo.type}:${photo.data}`));
+    }
   }
 
   lines.push("NOTE:aSSiST AI전략경영 11기");
@@ -78,7 +114,9 @@ export async function GET() {
     .from(users)
     .orderBy(asc(users.name));
 
-  const vcfContent = members.map(toVcard).join("\r\n");
+  // Fetch photos in parallel
+  const vcards = await Promise.all(members.map(toVcard));
+  const vcfContent = vcards.join("\r\n");
 
   return new NextResponse(vcfContent, {
     status: 200,
