@@ -45,65 +45,57 @@ export function DirectoryCard({
     <button
       type="button"
       onClick={onClick}
-      className="group relative flex flex-col overflow-hidden rounded-xl bg-card text-left ring-1 ring-foreground/10 transition-all duration-300 hover:ring-brand/30 hover:shadow-xl hover:shadow-brand/5"
+      className="group relative aspect-[9/16] overflow-hidden rounded-xl text-left ring-1 ring-foreground/10 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl"
     >
-      {/* Full-width photo section */}
-      <div className="relative h-[190px] w-full overflow-hidden">
-        {profile.avatarUrl ? (
-          <img
-            src={profile.avatarUrl}
-            alt={profile.name}
-            className="size-full object-cover"
-          />
-        ) : (
-          <div
-            className="flex size-full items-center justify-center text-4xl font-semibold text-white"
-            style={{ background: `linear-gradient(135deg, ${primary}, ${dark})` }}
-          >
-            {getInitials(profile.name)}
+      {/* Photo / fallback initials — fills entire card */}
+      {profile.avatarUrl ? (
+        <img
+          src={profile.avatarUrl}
+          alt={profile.name}
+          className="absolute inset-0 size-full object-cover"
+        />
+      ) : (
+        <div
+          className="absolute inset-0 flex items-center justify-center text-4xl font-semibold text-white"
+          style={{ background: `linear-gradient(135deg, ${primary}, ${dark})` }}
+        >
+          {getInitials(profile.name)}
+        </div>
+      )}
+
+      {/* Gradient scrim — dark hex + cc (80% opacity) */}
+      <div
+        className="absolute inset-0"
+        style={{ background: `linear-gradient(to top, ${dark}cc 0%, transparent 55%)` }}
+      />
+
+      {/* Social icons — top-right */}
+      <div className="absolute right-3 top-3 z-10 flex items-center gap-1.5">
+        {profile.github && (
+          <div className="rounded-full bg-white/20 p-1">
+            <Github className="size-3 text-white" />
           </div>
         )}
-        {/* Gradient overlay — photo fades into extracted color */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background: `linear-gradient(to bottom, transparent 40%, ${primary} 100%)`,
-          }}
-        />
-        {/* Social icons */}
-        <div className="absolute right-3 top-3 z-10 flex items-center gap-1.5">
-          {profile.github && (
-            <div className="rounded-full bg-white/20 p-1">
-              <Github className="size-3 text-white" />
-            </div>
-          )}
-          {profile.linkedin && (
-            <div className="rounded-full bg-white/20 p-1">
-              <Linkedin className="size-3 text-white" />
-            </div>
-          )}
-        </div>
+        {profile.linkedin && (
+          <div className="rounded-full bg-white/20 p-1">
+            <Linkedin className="size-3 text-white" />
+          </div>
+        )}
       </div>
 
-      {/* Info section */}
-      <div className="flex flex-1 flex-col gap-1.5 px-4 pb-5 pt-3">
-        <h3 className="text-sm font-bold tracking-tight text-text-strong">{profile.name}</h3>
+      {/* Text overlay — bottom */}
+      <div className="absolute bottom-0 left-0 right-0 z-10 p-4 text-white drop-shadow-lg">
+        <h3 className="text-sm font-bold tracking-tight">{profile.name}</h3>
         {(profile.company || profile.position) && (
-          <p className="flex items-center gap-1 text-xs text-text-muted">
+          <p className="flex items-center gap-1 text-xs opacity-90">
             <Building2 className="size-3 shrink-0" />
             <span className="truncate">{[profile.company, profile.position].filter(Boolean).join(" · ")}</span>
           </p>
         )}
         {profile.bio && (
-          <p className="line-clamp-2 text-xs leading-relaxed text-text-subtle">{profile.bio}</p>
+          <p className="mt-1 line-clamp-1 text-xs leading-relaxed opacity-80">{profile.bio}</p>
         )}
       </div>
-
-      {/* Bottom accent line */}
-      <div
-        className="h-0.5 w-full opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-        style={{ background: `linear-gradient(to right, ${primary}, ${dark})` }}
-      />
     </button>
   );
 }
