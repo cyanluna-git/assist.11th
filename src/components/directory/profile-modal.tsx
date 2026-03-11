@@ -10,6 +10,7 @@ import { useImageColor } from "@/hooks/use-image-color";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Mail, Building2, Briefcase, Tag, Heart, Github, Linkedin, Globe, ExternalLink } from "lucide-react";
 import type { CareerEntry } from "@/types/profile";
+import { DigitalCardSection } from "@/components/profiles/digital-card-section";
 
 const FALLBACK_COLORS = [
   ["#0f4d81", "#0d4472"],
@@ -251,6 +252,11 @@ export function ProfileModal({
                 </div>
               </div>
             )}
+
+            {/* Digital Card */}
+            <div className="mx-6 mt-4">
+              <DigitalCardSection profile={profile} />
+            </div>
 
             {/* Bottom spacing */}
             <div className="h-6 shrink-0" />
