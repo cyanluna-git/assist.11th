@@ -19,6 +19,7 @@ import {
   Users2,
   ScrollText,
   UtensilsCrossed,
+  Scale,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useSidebar } from "@/components/providers/sidebar-provider";
@@ -32,6 +33,7 @@ const navItems = [
   { href: "/groups", label: "소모임", icon: Users2 },
   { href: "/lunch", label: "점심 추천", icon: UtensilsCrossed },
   { href: "/organization", label: "운영진", icon: ScrollText },
+  { href: "/bylaws", label: "운영규정", icon: Scale },
   { href: "/gallery", label: "갤러리", icon: Image },
   { href: "/thesis", label: "논문", icon: BookOpen },
   { href: "/news", label: "IT 소식", icon: Newspaper },
