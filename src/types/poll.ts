@@ -33,6 +33,7 @@ export interface PollDetail {
   creatorAvatar: string | null;
   options: PollOption[];
   totalVoters: number;
+  eligibleVoterCount: number;
   userVotedOptionIds: string[];
 }
 
@@ -51,6 +52,7 @@ export interface PollResults {
   isMultiple: boolean;
   closesAt: string | null;
   totalVoters: number;
+  eligibleVoterCount: number;
   totalVoteCount: number;
   options: PollResultOption[];
 }

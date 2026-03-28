@@ -1177,6 +1177,8 @@ code {
   display: grid;
   gap: 0.55rem;
   margin-top: 1rem;
+  width: min(100%, 720px);
+  margin-inline: auto;
 }
 
 .guide-shot img {

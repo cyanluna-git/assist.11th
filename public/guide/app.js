@@ -24,6 +24,7 @@ const sidebarGroups = [
     id: "setup",
     title: "가입과 설치",
     items: [
+      { label: "최소 부트스트랩", href: "./bootstrap.html" },
       { label: "계정 가입", href: "./accounts.html" },
       { label: "Git 설치", href: "./install-git.html" },
       { label: "Node.js 설치", href: "./install-node.html" },
@@ -64,6 +65,12 @@ const sidebarQuickStartMap = {
     description: "가입 확인 후 1주차로 시작",
     primary: { label: "1주차 바로가기", href: "./week-1.html" },
     secondary: { label: "계정 가입 확인", href: "./accounts.html" },
+  },
+  bootstrap: {
+    title: "먼저 맞출 것",
+    description: "WSL 안에 Git Python Node AI CLI까지 정리",
+    primary: { label: "WSL 설치", href: "./install-wsl.html" },
+    secondary: { label: "4주차 교안", href: "./week-4.html" },
   },
   accounts: {
     title: "먼저 끝내기",

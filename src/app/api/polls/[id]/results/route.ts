@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { eq, sql } from "drizzle-orm";
+import { eq, inArray, sql } from "drizzle-orm";
 
 import { db } from "@/lib/db";
 import { polls, pollOptions, pollVotes, users } from "@/db/schema";
 import { getSession } from "@/lib/auth";
+import { calculatePollParticipationPercent } from "@/lib/poll-metrics";
 
 export const dynamic = "force-dynamic";
 
@@ -57,6 +58,14 @@ export async function GET(
     .where(eq(pollOptions.pollId, id))
     .then((rows) => Number(rows[0]?.count ?? 0));
 
+  const eligibleVoterCount = await db
+    .select({
+      count: sql<number>`COUNT(*)`,
+    })
+    .from(users)
+    .where(inArray(users.role, ["member", "admin"]))
+    .then((rows) => Number(rows[0]?.count ?? 0));
+
   const totalVoteCount = options.reduce((sum, o) => sum + Number(o.voteCount), 0);
 
   // Build results per option with voters (if not anonymous)
@@ -64,10 +73,7 @@ export async function GET(
 
   for (const option of options) {
     const count = Number(option.voteCount);
-    const percentage =
-      totalVoteCount > 0
-        ? Math.round((count / totalVoteCount) * 1000) / 10
-        : 0;
+    const percentage = calculatePollParticipationPercent(count, eligibleVoterCount);
 
     let voters: { id: string; name: string }[] | undefined;
 
@@ -101,6 +107,7 @@ export async function GET(
       isMultiple: poll.isMultiple,
       closesAt: poll.closesAt,
       totalVoters,
+      eligibleVoterCount,
       totalVoteCount,
       options: optionResults,
     },

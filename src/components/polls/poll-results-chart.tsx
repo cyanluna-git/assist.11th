@@ -10,10 +10,12 @@ import {
   Cell,
 } from "recharts";
 import type { PollResultOption } from "@/types/poll";
+import { calculatePollParticipationPercent } from "@/lib/poll-metrics";
 
 interface PollResultsChartProps {
   options: PollResultOption[];
   totalVoters: number;
+  eligibleVoterCount: number;
   userVotedOptionIds?: string[];
 }
 
@@ -23,8 +25,13 @@ const BAR_COLOR_VOTED = "var(--color-brand-dark)";
 export function PollResultsChart({
   options,
   totalVoters,
+  eligibleVoterCount,
   userVotedOptionIds = [],
 }: PollResultsChartProps) {
+  const turnoutPercentage = calculatePollParticipationPercent(
+    totalVoters,
+    eligibleVoterCount,
+  );
   const data = options.map((opt) => ({
     name: opt.text,
     votes: opt.voteCount,
@@ -77,7 +84,7 @@ export function PollResultsChart({
         })}
       </div>
       <p className="text-xs text-text-muted">
-        총 {totalVoters}명 투표
+        총 {totalVoters}명 투표 · 전체 {eligibleVoterCount}명 중 {turnoutPercentage}% 참여
       </p>
 
       {/* Recharts horizontal bar chart */}
