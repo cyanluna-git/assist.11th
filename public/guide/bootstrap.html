@@ -126,6 +126,28 @@ wsl --list --online</code></pre>
               설치가 끝나면 재부팅하고, 다시 Windows에 로그인한 뒤 Ubuntu를 열어 Linux용 사용자
               이름과 비밀번호를 만든다.
             </p>
+            <figure class="guide-shot">
+              <img
+                src="./assets/screenshots/bootstrap/wsl-version-and-ubuntu-download.png"
+                alt="PowerShell에서 wsl --version 결과와 Ubuntu 설치가 보이는 화면"
+                loading="lazy"
+              />
+              <figcaption>
+                관리자 PowerShell에서 <code>wsl --version</code> 으로 설치 상태를 확인하고,
+                Ubuntu가 내려받아지는지 본다.
+              </figcaption>
+            </figure>
+            <figure class="guide-shot">
+              <img
+                src="./assets/screenshots/bootstrap/ubuntu-first-run-user-setup.png"
+                alt="Ubuntu 첫 실행 후 리눅스 사용자 이름과 비밀번호를 만드는 화면"
+                loading="lazy"
+              />
+              <figcaption>
+                Ubuntu를 처음 열면 Linux용 사용자 이름과 비밀번호를 만든다. 여기서 만든
+                비밀번호가 이후 <code>sudo</code> 비밀번호다.
+              </figcaption>
+            </figure>
           </article>
 
           <article class="guide-step">
@@ -143,6 +165,17 @@ sudo apt install -y git curl unzip python3 python3-pip python3-venv build-essent
               Ubuntu 비밀번호를 물으면 방금 만든 Linux 비밀번호를 입력한다. 입력 중 화면에 글자가
               안 보여도 정상이다.
             </p>
+            <figure class="guide-shot">
+              <img
+                src="./assets/screenshots/bootstrap/apt-install-base-tools.png"
+                alt="Ubuntu 터미널에서 apt update와 apt install로 기본 패키지를 설치하는 화면"
+                loading="lazy"
+              />
+              <figcaption>
+                <code>apt update</code> 와 <code>apt install</code> 이 정상적으로 진행되면 WSL
+                안에 기본 개발 도구를 깔 준비가 된 상태다.
+              </figcaption>
+            </figure>
           </article>
 
           <article class="guide-step">
@@ -162,6 +195,17 @@ pip3 --version</code></pre>
               <code>which</code> 결과가 보통 <code>/usr/bin/...</code> 처럼 Linux 경로로 나오면
               정상이다.
             </p>
+            <figure class="guide-shot">
+              <img
+                src="./assets/screenshots/bootstrap/git-and-python-check.png"
+                alt="Ubuntu에서 git과 python3 경로 및 버전을 확인하는 화면"
+                loading="lazy"
+              />
+              <figcaption>
+                <code>which git</code>, <code>which python3</code> 결과가 Linux 경로이고
+                버전이 출력되면 Step 3은 끝이다.
+              </figcaption>
+            </figure>
           </article>
 
           <article class="guide-step">
@@ -188,6 +232,17 @@ npm --version</code></pre>
               <code>command -v nvm</code> 결과로 <code>nvm</code> 이 출력되면 정상이다. 이 단계가
               끝나야 <code>npm install -g ...</code> 계열 도구를 안정적으로 설치할 수 있다.
             </p>
+            <figure class="guide-shot">
+              <img
+                src="./assets/screenshots/bootstrap/nvm-node-install.png"
+                alt="Ubuntu에서 nvm으로 Node.js LTS를 설치하고 node와 npm 버전을 확인하는 화면"
+                loading="lazy"
+              />
+              <figcaption>
+                <code>nvm install --lts</code> 뒤에 <code>node --version</code> 과
+                <code>npm --version</code> 이 바로 나오면 이후 AI CLI 설치가 수월하다.
+              </figcaption>
+            </figure>
           </article>
 
           <article class="guide-step">
@@ -211,6 +266,28 @@ gemini</code></pre>
               로그인 흐름을 따라가면 된다. Claude Code는 무료 Claude.ai 플랜만으로는 접근이 안 될 수
               있으므로 계정 종류를 미리 확인한다.
             </p>
+            <figure class="guide-shot">
+              <img
+                src="./assets/screenshots/bootstrap/claude-version-and-doctor.png"
+                alt="Ubuntu에서 claude --version과 claude doctor를 실행한 화면"
+                loading="lazy"
+              />
+              <figcaption>
+                설치 직후에는 <code>claude --version</code> 과 <code>claude doctor</code> 로
+                실행 파일과 환경 상태를 먼저 확인한다.
+              </figcaption>
+            </figure>
+            <figure class="guide-shot">
+              <img
+                src="./assets/screenshots/bootstrap/claude-code-ready.png"
+                alt="Claude Code가 WSL 터미널에서 정상 실행된 초기 화면"
+                loading="lazy"
+              />
+              <figcaption>
+                Claude Code가 이런 시작 화면까지 뜨면 준비 완료다. Gemini CLI도 같은 WSL 터미널
+                안에서 같은 방식으로 설치하고 로그인하면 된다.
+              </figcaption>
+            </figure>
           </article>
 
           <article class="guide-step">
