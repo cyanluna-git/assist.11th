@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Python 설치 가이드 | 바이브코딩 입문</title>
+    <meta name="description" content="Windows 기준 Python 설치와 확인 가이드." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body data-page="install-python">
+    <div class="site-shell">
+      <header class="topbar">
+        <a class="brand" href="./index.html">
+          <span class="brand-mark">VC</span>
+          <span class="brand-copy">
+            <strong>Vibe Coding 101</strong>
+            <small>Python 설치</small>
+          </span>
+        </a>
+        <nav class="main-nav" aria-label="가이드 메뉴">
+          <a href="./install-git.html">Git</a>
+          <a href="./install-node.html">Node.js</a>
+          <a href="./install-wsl.html">WSL</a>
+          <a href="./install-vscode.html">VS Code</a>
+          <a href="./install-antigravity.html">Antigravity</a>
+        </nav>
+      </header>
+
+      <main class="page-main">
+        <section class="page-hero">
+          <p class="eyebrow">Tool Guide</p>
+          <h1>Python 설치 가이드</h1>
+          <p class="lede">
+            Python 설치 필수. 자동화, 스크립트, 확장 실습용 기본 도구. Windows 기준은
+            python.org 공식 설치
+          </p>
+        </section>
+
+        <section class="section-grid">
+          <article class="feature-card accent-card">
+            <p class="section-label">설치 순서</p>
+            <ol class="ordered-list">
+              <li><a class="text-link" href="https://www.python.org/downloads/" target="_blank" rel="noreferrer">Python 공식 다운로드 페이지</a> 열기</li>
+              <li>최신 안정 버전 Download 버튼 클릭</li>
+              <li>설치 파일 실행</li>
+              <li>간단 설치 또는 Customize installation 선택</li>
+              <li>설치 후 새 터미널 열기</li>
+            </ol>
+            <figure class="guide-shot">
+              <img src="./assets/screenshots/python-downloads.png" alt="Python 공식 다운로드 페이지 스크린샷" loading="lazy" />
+              <figcaption>Python 공식 다운로드 페이지</figcaption>
+            </figure>
+          </article>
+          <article class="feature-card">
+            <p class="section-label">PATH 안내</p>
+            <h2>PATH 추가, 초보자라면 켜두기</h2>
+            <p>
+              공식 문서 기준으로 optional. 하지만 <code>python</code> 명령을 바로 쓰려면 켜두는 편이
+              덜 헷갈림.
+            </p>
+          </article>
+        </section>
+
+        <section class="guide-step-list">
+          <article class="guide-step">
+            <p class="section-label">설치할 때 보기</p>
+            <h2>체크박스가 보이면 PATH 추가 켜두기</h2>
+            <p>
+              수업에서는 <code>python</code>, <code>python3</code>, <code>py</code> 명령 중 하나를 바로 실행.
+              PATH 옵션 켜두면 이해가 쉬움.
+            </p>
+            <figure class="guide-shot">
+              <img src="./assets/screenshots/python-downloads.png" alt="Python 설치 안내 공식 페이지 스크린샷" loading="lazy" />
+              <figcaption>Python 공식 다운로드 화면 기준</figcaption>
+            </figure>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">설치 후 확인</p>
+            <h2>세 가지 명령 중 하나 이상 동작 확인</h2>
+            <pre class="code-block"><code>python --version
+python3 --version
+py --version</code></pre>
+            <p>Windows에서는 <code>py</code> 가 먼저 동작하는 경우도 있음.</p>
+          </article>
+        </section>
+
+        <section class="section-grid">
+          <article class="feature-card">
+            <p class="section-label">설치 확인</p>
+            <pre class="code-block"><code>python --version</code></pre>
+            <p>또는</p>
+            <pre class="code-block"><code>python3 --version</code></pre>
+          </article>
+          <article class="feature-card">
+            <p class="section-label">추가 확인</p>
+            <pre class="code-block"><code>py --version</code></pre>
+            <p>Windows에서는 Python launcher와 함께 <code>py</code> 명령 사용 가능.</p>
+          </article>
+        </section>
+
+        <section class="note-block">
+          <p class="section-label">공식 문서 메모</p>
+          <ul class="bullet-list">
+            <li>PATH 추가, 공식 문서 기준 optional</li>
+            <li>모든 사용자 설치가 필요하면 Customize installation 사용</li>
+            <li>기본 개인 설치는 관리자 권한 없이 가능</li>
+          </ul>
+        </section>
+
+        <section class="note-block">
+          <p class="section-label">자주 막히는 경우</p>
+          <ul class="bullet-list">
+            <li><code>python</code> 이 안 되면 <code>py</code> 또는 <code>python3</code> 로 확인</li>
+            <li>설치 직후 명령이 안 되면 새 터미널 열기 또는 재부팅</li>
+          </ul>
+        </section>
+
+        <section class="note-block">
+          <p class="section-label">공식 링크</p>
+          <ul class="bullet-list">
+            <li><a class="text-link" href="https://www.python.org/downloads/" target="_blank" rel="noreferrer">Python 다운로드</a></li>
+            <li><a class="text-link" href="https://docs.python.org/3/using/windows.html" target="_blank" rel="noreferrer">Python on Windows 공식 문서</a></li>
+          </ul>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <p>Python 설치 가이드</p>
+        <p><a href="./index.html">메인으로 돌아가기</a></p>
+      </footer>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>1주차 교안 | 비설치형 첫 경험</title>
+    <meta
+      name="description"
+      content="바이브코딩 입문 1주차 상세 교안. 브라우저에서 첫 앱을 만들고, 질문형 사용에서 작업지시형 사용으로 이동하는 흐름."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body data-page="week-1">
+    <div class="site-shell">
+      <header class="topbar">
+        <a class="brand" href="./index.html">
+          <span class="brand-mark">W1</span>
+          <span class="brand-copy">
+            <strong>Vibe Coding 101</strong>
+            <small>1주차 비설치형 첫 경험</small>
+          </span>
+        </a>
+        <nav class="main-nav" aria-label="주차 이동">
+          <a href="./index.html">메인</a>
+          <a href="./week-1.html">1주차</a>
+          <a href="./week-2.html">2주차</a>
+          <a href="./week-3.html">3주차</a>
+          <a href="./week-4.html">4주차</a>
+          <a href="./week-5.html">5주차</a>
+        </nav>
+      </header>
+
+      <main class="page-main">
+        <section class="page-hero">
+          <p class="eyebrow">Week 1</p>
+          <h1>비설치형 첫 경험</h1>
+          <p class="lede">
+            브라우저에서 바로 시작
+            일단 하나 끝까지 만들기
+            질문형 사용에서 작업지시형 사용으로 이동
+          </p>
+          <div class="hero-actions">
+            <a class="button button-solid" href="./index.html#roadmap">메인 로드맵 보기</a>
+            <a class="button button-ghost" href="./week-2.html">2주차로 이동</a>
+          </div>
+        </section>
+
+        <section class="section-grid">
+          <article class="feature-card accent-card">
+            <p class="section-label">이번 주 목표</p>
+            <h2>첫 결과물 완성</h2>
+            <ul class="bullet-list">
+              <li>브라우저 도구로 앱 한 개 끝까지 만들기</li>
+              <li>프론트 화면과 API 연결 지점 구분하기</li>
+              <li>출력 결과를 보고 다시 수정 요청하기</li>
+            </ul>
+          </article>
+          <article class="feature-card">
+            <p class="section-label">수업 전 준비</p>
+            <ul class="bullet-list">
+              <li>GitHub 가입 완료</li>
+              <li>Replit 가입 완료</li>
+              <li>브라우저 AI 도구 로그인 완료</li>
+              <li>실습용 도시 하나 정해오기</li>
+            </ul>
+            <p class="example-line">예시 도시 · 서울 도쿄 싱가포르 샌프란시스코</p>
+          </article>
+        </section>
+
+        <section class="section-grid">
+          <article class="feature-card">
+            <p class="section-label">1주차 공통 도구</p>
+            <h2>Replit으로 통일</h2>
+            <ul class="bullet-list">
+              <li>브라우저에서 바로 시작</li>
+              <li>자연어로 앱 만들기 가능</li>
+              <li>코드와 미리보기 함께 보기 가능</li>
+              <li>처음 만든 결과물을 계속 수정하기 쉬움</li>
+            </ul>
+            <p class="example-line">1주차는 모두 같은 흐름으로 따라오기</p>
+          </article>
+          <article class="feature-card">
+            <p class="section-label">가입 안내</p>
+            <h2>수업 전 Replit 가입 완료</h2>
+            <ol class="ordered-list">
+              <li><a class="text-link" href="https://replit.com/" target="_blank" rel="noreferrer">Replit 열기</a></li>
+              <li>회원가입 또는 로그인 완료</li>
+              <li>브라우저에서 새 프로젝트 시작 가능한 상태 확인</li>
+            </ol>
+            <p class="example-line">GitHub 계정도 함께 준비하면 이후 연결이 쉬움</p>
+            <figure class="guide-shot">
+              <img src="./assets/screenshots/replit-home.png" alt="Replit 공식 사이트 화면 스크린샷" loading="lazy" />
+              <figcaption>Replit 공식 사이트</figcaption>
+            </figure>
+          </article>
+        </section>
+
+        <section class="diagram-card">
+          <div class="diagram-heading">
+            <p class="section-label">Week 1 Flow</p>
+            <h2>1주차 진행 흐름</h2>
+          </div>
+
+          <div class="process-diagram process-diagram-4">
+            <article class="process-node process-node-primary" data-icon="RP">
+              <span>1</span>
+              <strong>Replit 로그인</strong>
+              <p>브라우저에서 바로 시작</p>
+            </article>
+            <div class="process-arrow">→</div>
+            <article class="process-node process-node-accent" data-icon="ASK">
+              <span>2</span>
+              <strong>첫 프롬프트 입력</strong>
+              <p>출장 대시보드 첫 화면 생성</p>
+            </article>
+            <div class="process-arrow">→</div>
+            <article class="process-node process-node-primary" data-icon="CHK">
+              <span>3</span>
+              <strong>결과 확인</strong>
+              <p>입력 폼 카드 버튼 흐름 확인</p>
+            </article>
+            <div class="process-arrow">→</div>
+            <article class="process-node process-node-success" data-icon="FIX">
+              <span>4</span>
+              <strong>수정 요청</strong>
+              <p>더 나은 결과물로 반복</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="note-block">
+          <p class="section-label">왜 Replit인가</p>
+          <ul class="bullet-list">
+            <li>설치 없이 시작 가능</li>
+            <li>앱을 만들고 바로 다시 수정 가능</li>
+            <li>코드가 실제로 보이기 때문에 노코드 체험으로 끝나지 않음</li>
+            <li>이후 GitHub IDE CLI 단계로 넘어가기 쉬움</li>
+          </ul>
+        </section>
+
+        <section class="note-block">
+          <p class="section-label">대체 가능 도구</p>
+          <ul class="bullet-list">
+            <li>Bolt 사용 가능</li>
+            <li>하지만 1주차 실습 공통 화면은 Replit 기준</li>
+            <li>Bolt는 수업 밖에서 추가 실험용으로 권장</li>
+          </ul>
+          <p class="example-line"><a class="text-link" href="https://bolt.new/" target="_blank" rel="noreferrer">Bolt 바로가기</a></p>
+        </section>
+
+        <section class="guide-step-list">
+          <article class="guide-step">
+            <p class="section-label">0-10분</p>
+            <h2>질문형 사용과 작업지시형 사용 구분</h2>
+            <ul class="bullet-list">
+              <li>질문만 던지는 사용 패턴 확인</li>
+              <li>원하는 결과물을 먼저 정하는 방식 소개</li>
+              <li>화면 입력 결과 세 덩어리로 나누기</li>
+            </ul>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">10-20분</p>
+            <h2>프롬프트 1 첫 화면 만들기</h2>
+            <pre class="code-block"><code>출장 / 미팅 의사결정 대시보드를 만들어줘
+한 페이지 웹앱으로 만들기
+도시 날짜 국가 입력 받기
+날씨 공휴일 환율 카드 3개 보여주기
+처음에는 실제 API 대신 목업 데이터 사용
+파일 수는 최소로 유지
+초보자가 읽기 쉬운 구조로 만들기</code></pre>
+            <p class="example-line">Replit에서 바로 붙여넣기</p>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">20-35분</p>
+            <h2>프롬프트 2 UI 정리</h2>
+            <pre class="code-block"><code>좋아
+이제 아래 4가지를 고쳐줘
+1. 입력 폼을 더 단순하게
+2. 결과 카드 3개를 한눈에 비교 가능하게
+3. 빈 값일 때 안내 문구 추가
+4. 모바일에서도 읽기 쉽게</code></pre>
+            <p class="example-line">한 번에 너무 많이 바꾸지 않기</p>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">35-45분</p>
+            <h2>프롬프트 3 목업 데이터 정리</h2>
+            <pre class="code-block"><code>좋아
+이제 목업 데이터를 더 현실적으로 바꿔줘
+도시마다 날씨 공휴일 환율 예시값이 다르게 보이게 해줘
+로딩 문구와 오류 문구도 함께 넣어줘</code></pre>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">45-55분</p>
+            <h2>첫 화면 직접 확인</h2>
+            <ul class="bullet-list">
+              <li>입력 폼 만들기</li>
+              <li>결과 카드 3개 만들기</li>
+              <li>버튼 클릭 흐름 만들기</li>
+            </ul>
+            <p class="example-line">핵심 · 완벽함보다 작동 우선</p>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">55-60분</p>
+            <h2>프로젝트 층 구분</h2>
+            <div class="process-diagram">
+              <article class="process-node process-node-primary" data-icon="FE">
+                <span>Frontend</span>
+                <strong>화면</strong>
+                <p>사용자가 보는 영역</p>
+              </article>
+              <div class="process-arrow">↓</div>
+              <article class="process-node process-node-accent" data-icon="API">
+                <span>API</span>
+                <strong>통로</strong>
+                <p>외부 정보 가져오는 연결</p>
+              </article>
+            </div>
+            <div class="flow-note-grid">
+              <article class="flow-note">
+                <h3>지금 보류</h3>
+                <p>백엔드</p>
+              </article>
+              <article class="flow-note">
+                <h3>지금 보류</h3>
+                <p>데이터베이스</p>
+              </article>
+              <article class="flow-note">
+                <h3>핵심</h3>
+                <p>일단 화면과 데이터 연결 감각부터</p>
+              </article>
+            </div>
+          </article>
+        </section>
+
+        <section class="section-grid">
+          <article class="feature-card">
+            <p class="section-label">이번 주 산출물</p>
+            <h2>목업 데이터 버전 대시보드</h2>
+            <ul class="bullet-list">
+              <li>도시 날짜 국가 입력 가능</li>
+              <li>날씨 공휴일 환율 카드 노출</li>
+              <li>최소 한 번 이상 AI에게 수정 요청</li>
+            </ul>
+          </article>
+          <article class="feature-card">
+            <p class="section-label">과제</p>
+            <h2>한 번 더 수정 요청</h2>
+            <ul class="bullet-list">
+              <li>색상 또는 레이아웃 한 번 바꾸기</li>
+              <li>입력 오류 문구 더 분명하게 바꾸기</li>
+              <li>Replit 프로젝트 링크 저장</li>
+              <li>다음 주 GitHub 계정 로그인 확인</li>
+            </ul>
+          </article>
+        </section>
+
+        <section class="note-block">
+          <p class="section-label">이번 주 핵심 문장</p>
+          <p>
+            답변 받기보다 결과물 만들기
+            완벽하게 묻기보다 하나씩 고치기
+            일단 작동하는 것부터 만들기
+          </p>
+        </section>
+
+        <section class="note-block">
+          <p class="section-label">공식 링크</p>
+          <ul class="bullet-list">
+            <li><a class="text-link" href="https://replit.com/" target="_blank" rel="noreferrer">Replit 공식 사이트</a></li>
+            <li><a class="text-link" href="https://replit.com/ai" target="_blank" rel="noreferrer">Replit AI 소개</a></li>
+            <li><a class="text-link" href="https://replit.com/usecases/ai-app-builder" target="_blank" rel="noreferrer">Replit AI App Builder</a></li>
+            <li><a class="text-link" href="https://bolt.new/" target="_blank" rel="noreferrer">Bolt 공식 사이트</a></li>
+            <li><a class="text-link" href="https://support.bolt.new/building/quickstart" target="_blank" rel="noreferrer">Bolt QuickStart</a></li>
+          </ul>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <p>1주차 상세 교안</p>
+        <p><a href="./week-2.html">다음 주차 보기</a></p>
+      </footer>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
