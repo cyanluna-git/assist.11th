@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>4주차 교안 | WSL과 CLI로 개발 흐름 들어가기</title>
+    <meta
+      name="description"
+      content="바이브코딩 입문 4주차 상세 교안. WSL과 CLI에서 Next.js 프로젝트를 직접 실행하고 수정하고 Git으로 관리하는 흐름."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body data-page="week-4">
+    <div class="site-shell">
+      <header class="topbar">
+        <a class="brand" href="./index.html">
+          <span class="brand-mark">W4</span>
+          <span class="brand-copy">
+            <strong>Vibe Coding 101</strong>
+            <small>4주차 WSL과 CLI</small>
+          </span>
+        </a>
+        <nav class="main-nav" aria-label="주차 이동">
+          <a href="./index.html">메인</a>
+          <a href="./week-1.html">1주차</a>
+          <a href="./week-2.html">2주차</a>
+          <a href="./week-3.html">3주차</a>
+          <a href="./week-4.html">4주차</a>
+          <a href="./week-5.html">5주차</a>
+        </nav>
+      </header>
+
+      <main class="page-main">
+        <section class="page-hero">
+          <p class="eyebrow">Week 4</p>
+          <h1>WSL과 CLI로 개발 흐름 들어가기</h1>
+          <p class="lede">
+            브라우저와 IDE 다음 단계
+            터미널에서 프로젝트 직접 다루기
+            실제 개발자 흐름 맛보기
+          </p>
+          <div class="hero-actions">
+            <a class="button button-solid" href="./install-wsl.html">WSL 가이드 보기</a>
+            <a class="button button-ghost" href="./week-5.html">5주차로 이동</a>
+          </div>
+        </section>
+
+        <section class="section-grid">
+          <article class="feature-card accent-card">
+            <p class="section-label">이번 주 목표</p>
+            <h2>터미널에서 프로젝트 통제</h2>
+            <ul class="bullet-list">
+              <li>WSL에서 저장소 clone</li>
+              <li><code>npm install</code> <code>npm run dev</code> 직접 실행</li>
+              <li>CLI 기반 수정과 Git 기록 남기기</li>
+            </ul>
+          </article>
+          <article class="feature-card">
+            <p class="section-label">이번 주 준비</p>
+            <ul class="bullet-list">
+              <li>WSL 설치 완료</li>
+              <li>Git Node.js 설치 완료</li>
+              <li>3주차 GitHub 저장소 준비 완료</li>
+              <li>VS Code WSL 연결 가능 상태</li>
+            </ul>
+            <p class="example-line">핵심 · 설치보다 실행과 반복</p>
+          </article>
+        </section>
+
+        <section class="section-grid">
+          <article class="feature-card">
+            <p class="section-label">이번 주 감각</p>
+            <h2>명령으로 프로젝트 움직이기</h2>
+            <ul class="bullet-list">
+              <li><code>clone</code> 저장소 가져오기</li>
+              <li><code>install</code> 의존성 설치</li>
+              <li><code>dev</code> 개발 서버 실행</li>
+              <li><code>status</code> 변경 파일 확인</li>
+            </ul>
+          </article>
+          <article class="feature-card">
+            <p class="section-label">이번 주 도구</p>
+            <h2>Claude Code로 CLI 흐름 보기</h2>
+            <ul class="bullet-list">
+              <li>Claude Code를 기본 시연 도구로 사용</li>
+              <li>핵심은 터미널 안에서 프로젝트를 읽고 수정하는 흐름</li>
+              <li>다른 CLI 도구는 비교용으로만 짧게 언급 가능</li>
+            </ul>
+          </article>
+        </section>
+
+        <section class="diagram-card">
+          <div class="diagram-heading">
+            <p class="section-label">Week 4 Flow</p>
+            <h2>WSL과 CLI 실행 흐름</h2>
+          </div>
+
+          <div class="process-diagram process-diagram-4">
+            <article class="process-node process-node-primary" data-icon="CLONE">
+              <span>1</span>
+              <strong>Clone</strong>
+              <p>WSL 안으로 저장소 가져오기</p>
+            </article>
+            <div class="process-arrow">→</div>
+            <article class="process-node process-node-accent" data-icon="DEV">
+              <span>2</span>
+              <strong>Install + Dev</strong>
+              <p>의존성 설치와 개발 서버 실행</p>
+            </article>
+            <div class="process-arrow">→</div>
+            <article class="process-node process-node-primary" data-icon="DIFF">
+              <span>3</span>
+              <strong>Diff 확인</strong>
+              <p>무엇이 바뀌었는지 읽기</p>
+            </article>
+            <div class="process-arrow">→</div>
+            <article class="process-node process-node-success" data-icon="PUSH">
+              <span>4</span>
+              <strong>Commit + Push</strong>
+              <p>터미널에서 기록 남기기</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="guide-step-list">
+          <article class="guide-step">
+            <p class="section-label">0-10분</p>
+            <h2>WSL에서 저장소 가져오기</h2>
+            <pre class="code-block"><code>git clone [내 저장소 주소]
+cd [프로젝트 폴더]
+ls</code></pre>
+            <p class="example-line">파일과 폴더가 보이면 시작 가능</p>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">10-20분</p>
+            <h2>개발 서버 실행</h2>
+            <pre class="code-block"><code>npm install
+npm run dev</code></pre>
+            <p class="example-line">브라우저에서 localhost 화면 열기</p>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">20-30분</p>
+            <h2>현재 프로젝트 상태 읽기</h2>
+            <pre class="code-block"><code>git status
+pwd
+node -v
+npm -v</code></pre>
+            <p class="example-line">지금 어디에서 무엇을 다루는지 확인</p>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">30-40분</p>
+            <h2>CLI용 수정 요청 예시</h2>
+            <pre class="code-block"><code>현재 Next.js 대시보드에서 아래만 고쳐줘
+1. 입력 폼 라벨 더 명확하게
+2. 로딩 상태 더 보기 쉽게
+3. 결과 카드 간격 정리
+4. 기존 구조는 최대한 유지</code></pre>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">40-50분</p>
+            <h2>변경 내용 확인</h2>
+            <pre class="code-block"><code>git status
+git diff</code></pre>
+            <p class="example-line">무엇이 바뀌었는지 읽고 이해하기</p>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">50-60분</p>
+            <h2>커밋과 push</h2>
+            <pre class="code-block"><code>git add .
+git commit -m "Refine dashboard in WSL"
+git push</code></pre>
+          </article>
+        </section>
+
+        <section class="section-grid">
+          <article class="feature-card">
+            <p class="section-label">이번 주 산출물</p>
+            <h2>WSL에서 실행한 프로젝트</h2>
+            <ul class="bullet-list">
+              <li>WSL clone 완료</li>
+              <li>개발 서버 실행 완료</li>
+              <li>수정 후 commit push 완료</li>
+            </ul>
+          </article>
+          <article class="feature-card">
+            <p class="section-label">과제</p>
+            <h2>터미널 명령 익숙해지기</h2>
+            <ul class="bullet-list">
+              <li><code>git status</code> 직접 3번 이상 실행</li>
+              <li><code>npm run dev</code> 혼자서 다시 실행</li>
+              <li>다음 주 저장 기능 아이디어 하나 정리</li>
+            </ul>
+          </article>
+        </section>
+
+        <section class="note-block">
+          <p class="section-label">이번 주 핵심 문장</p>
+          <p>
+            화면만 보지 않기
+            명령으로 프로젝트 움직이기
+            터미널을 열면 통제력이 커짐
+          </p>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <p>4주차 상세 교안</p>
+        <p><a href="./week-5.html">다음 주차 보기</a></p>
+      </footer>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

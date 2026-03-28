@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>5주차 교안 | 백엔드와 데이터베이스 맛보기</title>
+    <meta
+      name="description"
+      content="바이브코딩 입문 5주차 상세 교안. 프론트엔드만 있는 앱에서 백엔드와 데이터베이스가 왜 필요한지 보고, 간단한 저장 기능을 맛보는 흐름."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body data-page="week-5">
+    <div class="site-shell">
+      <header class="topbar">
+        <a class="brand" href="./index.html">
+          <span class="brand-mark">W5</span>
+          <span class="brand-copy">
+            <strong>Vibe Coding 101</strong>
+            <small>5주차 백엔드와 데이터베이스 맛보기</small>
+          </span>
+        </a>
+        <nav class="main-nav" aria-label="주차 이동">
+          <a href="./index.html">메인</a>
+          <a href="./week-1.html">1주차</a>
+          <a href="./week-2.html">2주차</a>
+          <a href="./week-3.html">3주차</a>
+          <a href="./week-4.html">4주차</a>
+          <a href="./week-5.html">5주차</a>
+        </nav>
+      </header>
+
+      <main class="page-main">
+        <section class="page-hero">
+          <p class="eyebrow">Week 5</p>
+          <h1>백엔드와 데이터베이스 맛보기</h1>
+          <p class="lede">
+            화면만 있는 앱에서 한 단계 더
+            저장 기능이 왜 필요한지 보기
+            프론트엔드 백엔드 데이터베이스 구분하기
+          </p>
+          <div class="hero-actions">
+            <a class="button button-solid" href="./index.html#concepts">필수 개념 보기</a>
+            <a class="button button-ghost" href="./index.html">메인으로 이동</a>
+          </div>
+        </section>
+
+        <section class="section-grid">
+          <article class="feature-card accent-card">
+            <p class="section-label">이번 주 목표</p>
+            <h2>저장 기능 맛보기</h2>
+            <ul class="bullet-list">
+              <li>프론트엔드와 백엔드 구분</li>
+              <li>간단한 저장 요청 흐름 만들기</li>
+              <li>데이터베이스가 필요한 이유 이해</li>
+            </ul>
+          </article>
+          <article class="feature-card">
+            <p class="section-label">이번 주 포인트</p>
+            <ul class="bullet-list">
+              <li>프론트엔드 · 입력 화면과 결과 표시</li>
+              <li>백엔드 · 저장 요청 처리</li>
+              <li>데이터베이스 · 나중에 다시 꺼내기 위한 저장소</li>
+            </ul>
+            <p class="example-line">핵심 · 화면 뒤에 무엇이 더 필요한지 보기</p>
+          </article>
+        </section>
+
+        <section class="section-grid">
+          <article class="feature-card">
+            <p class="section-label">이번 주 시나리오</p>
+            <h2>결정 기록 남기기</h2>
+            <ul class="bullet-list">
+              <li>어느 도시를 선택했는지</li>
+              <li>왜 그 도시를 골랐는지</li>
+              <li>회의 메모 한 줄 남기기</li>
+            </ul>
+          </article>
+          <article class="feature-card">
+            <p class="section-label">이번 주 구현 범위</p>
+            <h2>진짜 서비스 전 단계</h2>
+            <ul class="bullet-list">
+              <li>Next.js route handler 맛보기</li>
+              <li>브라우저에서 POST 요청 보내기</li>
+              <li>DB 연결은 개념 중심으로 설명</li>
+            </ul>
+          </article>
+        </section>
+
+        <section class="diagram-card">
+          <div class="diagram-heading">
+            <p class="section-label">Week 5 Flow</p>
+            <h2>프론트에서 저장까지</h2>
+          </div>
+
+          <div class="process-diagram process-diagram-4">
+            <article class="process-node process-node-primary" data-icon="UI">
+              <span>1</span>
+              <strong>입력 UI</strong>
+              <p>선택 이유와 메모 입력</p>
+            </article>
+            <div class="process-arrow">→</div>
+            <article class="process-node process-node-accent" data-icon="API">
+              <span>2</span>
+              <strong>API Route</strong>
+              <p>저장 요청 받는 백엔드 만들기</p>
+            </article>
+            <div class="process-arrow">→</div>
+            <article class="process-node process-node-primary" data-icon="RESP">
+              <span>3</span>
+              <strong>응답 처리</strong>
+              <p>성공 실패 메시지 보여주기</p>
+            </article>
+            <div class="process-arrow">→</div>
+            <article class="process-node process-node-success" data-icon="DB">
+              <span>4</span>
+              <strong>DB 확장</strong>
+              <p>다음 단계로 저장 기능 확장</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="guide-step-list">
+          <article class="guide-step">
+            <p class="section-label">0-10분</p>
+            <h2>프론트엔드 백엔드 DB 다시 구분</h2>
+            <ul class="bullet-list">
+              <li>입력 폼은 프론트엔드</li>
+              <li>저장 요청을 받는 코드는 백엔드</li>
+              <li>기록을 오래 남기면 DB 필요</li>
+            </ul>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">10-20분</p>
+            <h2>저장 기능 UI 추가</h2>
+            <pre class="code-block"><code>현재 대시보드에 아래 기능을 추가해줘
+1. 선택 이유 입력 칸
+2. 메모 입력 칸
+3. 저장 버튼
+기존 화면 구조는 유지해줘</code></pre>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">20-35분</p>
+            <h2>백엔드 route 만들기</h2>
+            <pre class="code-block"><code>Next.js app router 기준으로
+저장 요청을 받는 API route를 만들어줘
+우선은 메모리 안에만 저장해도 괜찮아
+초보자가 읽기 쉬운 코드로 작성해줘</code></pre>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">35-45분</p>
+            <h2>프론트에서 백엔드 호출</h2>
+            <pre class="code-block"><code>저장 버튼을 누르면
+방금 만든 API route로 POST 요청 보내게 해줘
+성공 실패 메시지도 화면에 보여줘</code></pre>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">45-52분</p>
+            <h2>왜 데이터베이스가 필요한가</h2>
+            <ul class="bullet-list">
+              <li>새로고침해도 기록 남기기</li>
+              <li>여러 사용자가 함께 쓰기</li>
+              <li>검색과 정렬 가능하게 만들기</li>
+            </ul>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">52-60분</p>
+            <h2>최종 정리와 다음 단계</h2>
+            <ul class="bullet-list">
+              <li>저장 기능이 붙은 화면 확인</li>
+              <li>GitHub에 마지막 push</li>
+              <li>다음 확장 후보 정리</li>
+            </ul>
+          </article>
+        </section>
+
+        <section class="section-grid">
+          <article class="feature-card">
+            <p class="section-label">이번 주 산출물</p>
+            <h2>프론트와 백엔드가 나뉜 버전</h2>
+            <ul class="bullet-list">
+              <li>저장 버튼 추가</li>
+              <li>API route 추가</li>
+              <li>성공 실패 메시지 추가</li>
+            </ul>
+          </article>
+          <article class="feature-card">
+            <p class="section-label">이후 확장</p>
+            <h2>진짜 서비스로 가는 다음 단계</h2>
+            <ul class="bullet-list">
+              <li>데이터베이스 연결</li>
+              <li>사용자 로그인</li>
+              <li>저장 기록 목록 보기</li>
+            </ul>
+          </article>
+        </section>
+
+        <section class="note-block">
+          <p class="section-label">이번 주 핵심 문장</p>
+          <p>
+            화면만 있으면 보여주기까지
+            백엔드가 붙으면 처리하기 시작
+            데이터베이스가 붙으면 기억하기 시작
+          </p>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <p>5주차 상세 교안</p>
+        <p><a href="./index.html">메인으로 돌아가기</a></p>
+      </footer>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

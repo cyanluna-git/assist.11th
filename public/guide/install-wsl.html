@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WSL 설치 가이드 | 바이브코딩 입문</title>
+    <meta name="description" content="Windows 사용자를 위한 WSL 설치와 Ubuntu 초기 설정 가이드." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body data-page="install-wsl">
+    <div class="site-shell">
+      <header class="topbar">
+        <a class="brand" href="./index.html">
+          <span class="brand-mark">VC</span>
+          <span class="brand-copy">
+            <strong>Vibe Coding 101</strong>
+            <small>WSL 설치</small>
+          </span>
+        </a>
+        <nav class="main-nav" aria-label="가이드 메뉴">
+          <a href="./accounts.html">계정 가입</a>
+          <a href="./install-git.html">Git</a>
+          <a href="./install-node.html">Node.js</a>
+          <a href="./install-python.html">Python</a>
+          <a href="./install-vscode.html">VS Code</a>
+        </nav>
+      </header>
+
+      <main class="page-main">
+        <section class="page-hero">
+          <p class="eyebrow">Tool Guide</p>
+          <h1>WSL 설치 가이드</h1>
+          <p class="lede">
+            Windows 사용자라면 WSL 설치 권장. 가장 쉬운 방법은 관리자 권한 PowerShell에서
+            <code>wsl --install</code> 실행
+          </p>
+        </section>
+
+        <section class="section-grid">
+          <article class="feature-card accent-card">
+            <p class="section-label">먼저 확인</p>
+            <ul class="bullet-list">
+              <li>Windows 10 2004 이상 또는 Windows 11</li>
+              <li>관리자 권한으로 PowerShell 실행 가능</li>
+              <li>재부팅 가능 상태</li>
+            </ul>
+          </article>
+          <article class="feature-card">
+            <p class="section-label">가장 쉬운 설치 방법</p>
+            <ol class="ordered-list">
+              <li>시작 메뉴에서 PowerShell 찾기</li>
+              <li>오른쪽 클릭 후 <strong>관리자 권한으로 실행</strong> 선택</li>
+              <li>아래 명령 입력</li>
+            </ol>
+            <pre class="code-block"><code>wsl --install</code></pre>
+            <p>필요한 기능 켜기, Ubuntu 배포판 설치까지 한 번에</p>
+          </article>
+        </section>
+
+        <section class="guide-step-list">
+          <article class="guide-step">
+            <p class="section-label">Step 1</p>
+            <h2>명령 실행 후 재부팅</h2>
+            <p>
+              명령 끝난 뒤 재부팅. 다시 로그인하면 Ubuntu 초기 설정 창이 열릴 수 있음.
+            </p>
+            <figure class="guide-shot">
+              <img src="./assets/screenshots/wsl-install-docs.png" alt="WSL 공식 설치 문서 스크린샷" loading="lazy" />
+              <figcaption>Microsoft WSL 공식 설치 문서</figcaption>
+            </figure>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">Step 2</p>
+            <h2>Ubuntu 사용자 이름, 비밀번호 만들기</h2>
+            <p>
+              Linux용 사용자 이름과 비밀번호 입력. Windows 계정과는 별개. 기억하기 쉬운 값으로 설정.
+            </p>
+            <figure class="guide-shot">
+              <img src="./assets/screenshots/wsl-install-docs.png" alt="WSL 설치 가이드 공식 화면 스크린샷" loading="lazy" />
+              <figcaption>WSL 설치 가이드 화면 기준</figcaption>
+            </figure>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">Step 3</p>
+            <h2>설치 상태 확인</h2>
+            <pre class="code-block"><code>wsl -l -v</code></pre>
+            <p>
+              배포판 목록과 버전 표시되면 정상. 기본 목표는 WSL 2 상태 확인.
+            </p>
+            <figure class="guide-shot">
+              <img src="./assets/screenshots/wsl-install-docs.png" alt="WSL 설치 상태 확인 공식 문서 스크린샷" loading="lazy" />
+              <figcaption>WSL 설치 상태 확인 문서 기준</figcaption>
+            </figure>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">Step 4</p>
+            <h2>WSL 안에서 기본 도구 확인</h2>
+            <pre class="code-block"><code>git --version
+node -v
+npm -v
+python3 --version</code></pre>
+            <p>수업 기준 핵심 4개, 안 되면 WSL 안쪽에 다시 설치</p>
+          </article>
+        </section>
+
+        <section class="section-grid">
+          <article class="feature-card">
+            <p class="section-label">막힐 때 1</p>
+            <h2><code>wsl --install</code> 이 도움말만 보일 때</h2>
+            <p>온라인 배포판 목록 먼저 보기, 그다음 Ubuntu 지정 설치</p>
+            <pre class="code-block"><code>wsl --list --online
+wsl --install -d Ubuntu</code></pre>
+          </article>
+          <article class="feature-card">
+            <p class="section-label">막힐 때 2</p>
+            <h2>설치가 0.0%에서 멈출 때</h2>
+            <p>0.0%에서 멈출 때 사용할 웹 다운로드 명령</p>
+            <pre class="code-block"><code>wsl --install --web-download -d Ubuntu</code></pre>
+          </article>
+        </section>
+
+        <section class="note-block">
+          <p class="section-label">수업용 권장 습관</p>
+          <ul class="bullet-list">
+            <li>프로젝트는 가능하면 WSL 홈 디렉토리 안에서 작업</li>
+            <li>Windows 탐색기보다 WSL 터미널 중심으로 이동</li>
+            <li>VS Code 사용 시 WSL 확장 연결</li>
+          </ul>
+        </section>
+
+        <section class="note-block">
+          <p class="section-label">공식 링크</p>
+          <ul class="bullet-list">
+            <li><a class="text-link" href="https://learn.microsoft.com/en-us/windows/wsl/install" target="_blank" rel="noreferrer">Install WSL</a></li>
+            <li><a class="text-link" href="https://learn.microsoft.com/en-us/windows/wsl/tutorials/wsl-vscode" target="_blank" rel="noreferrer">Get started using VS Code with WSL</a></li>
+          </ul>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <p>WSL 설치 가이드</p>
+        <p><a href="./index.html">메인으로 돌아가기</a></p>
+      </footer>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

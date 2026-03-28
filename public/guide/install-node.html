@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Node.js 설치 가이드 | 바이브코딩 입문</title>
+    <meta name="description" content="Windows 기준 Node.js LTS 설치와 확인 가이드." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body data-page="install-node">
+    <div class="site-shell">
+      <header class="topbar">
+        <a class="brand" href="./index.html">
+          <span class="brand-mark">VC</span>
+          <span class="brand-copy">
+            <strong>Vibe Coding 101</strong>
+            <small>Node.js 설치</small>
+          </span>
+        </a>
+        <nav class="main-nav" aria-label="가이드 메뉴">
+          <a href="./install-git.html">Git</a>
+          <a href="./install-python.html">Python</a>
+          <a href="./install-wsl.html">WSL</a>
+          <a href="./install-vscode.html">VS Code</a>
+          <a href="./install-antigravity.html">Antigravity</a>
+        </nav>
+      </header>
+
+      <main class="page-main">
+        <section class="page-hero">
+          <p class="eyebrow">Tool Guide</p>
+          <h1>Node.js 설치 가이드</h1>
+          <p class="lede">
+            Node.js 설치 필수. 웹 프로젝트 실행, 패키지 설치, 개발 서버 실행용 기본 도구.
+            설치 기준은 `LTS` 버전
+          </p>
+        </section>
+
+        <section class="section-grid">
+          <article class="feature-card accent-card">
+            <p class="section-label">설치 순서</p>
+            <ol class="ordered-list">
+              <li><a class="text-link" href="https://nodejs.org/en/download/" target="_blank" rel="noreferrer">Node.js 공식 다운로드 페이지</a> 열기</li>
+              <li><strong>LTS</strong> 버전 선택</li>
+              <li>Windows 설치 파일 다운로드</li>
+              <li>설치 파일 실행, 기본 옵션 진행</li>
+              <li>설치 후 새 터미널 열기</li>
+            </ol>
+            <figure class="guide-shot">
+              <img src="./assets/screenshots/node-download.png" alt="Node.js 공식 다운로드 페이지 스크린샷" loading="lazy" />
+              <figcaption>Node.js 공식 다운로드 페이지</figcaption>
+            </figure>
+          </article>
+          <article class="feature-card">
+            <p class="section-label">중요</p>
+            <h2>LTS 선택</h2>
+            <p>
+              `Current` 보다 `LTS` 우선, 수업과 실습용 기준
+            </p>
+          </article>
+        </section>
+
+        <section class="guide-step-list">
+          <article class="guide-step">
+            <p class="section-label">설치 후 바로 할 일</p>
+            <h2>node 와 npm 둘 다 확인</h2>
+            <pre class="code-block"><code>node -v
+npm -v</code></pre>
+            <p>둘 중 하나라도 안 나오면 설치 다시 확인</p>
+            <figure class="guide-shot">
+              <img src="./assets/screenshots/node-download.png" alt="Node.js 설치 안내 공식 페이지 스크린샷" loading="lazy" />
+              <figcaption>Node.js LTS 선택 화면 기준</figcaption>
+            </figure>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">처음 듣는 용어</p>
+            <h2>npm, Node.js와 함께 오는 패키지 관리자</h2>
+            <p>
+              프로젝트 내려받기, 패키지 설치, 개발 서버 실행, 그래서 <code>npm</code> 확인도 함께 필요
+            </p>
+          </article>
+        </section>
+
+        <section class="note-block">
+          <p class="section-label">설치 확인</p>
+          <pre class="code-block"><code>node -v
+npm -v</code></pre>
+          <p>두 명령 모두 버전 출력, 설치 완료</p>
+        </section>
+
+        <section class="note-block">
+          <p class="section-label">수업에서 왜 필요한가</p>
+          <ul class="bullet-list">
+            <li>프론트엔드 프로젝트 실행</li>
+            <li>패키지 설치</li>
+            <li>개발 서버 실행</li>
+          </ul>
+        </section>
+
+        <section class="note-block">
+          <p class="section-label">자주 막히는 경우</p>
+          <ul class="bullet-list">
+            <li>아주 오래된 Node가 이미 깔려 있으면 버전 충돌 가능</li>
+            <li>명령이 안 먹으면 새 터미널 열기 또는 재부팅</li>
+          </ul>
+        </section>
+
+        <section class="note-block">
+          <p class="section-label">공식 링크</p>
+          <ul class="bullet-list">
+            <li><a class="text-link" href="https://nodejs.org/en/download/" target="_blank" rel="noreferrer">Node.js 공식 다운로드</a></li>
+            <li><a class="text-link" href="https://nodejs.org/en/download/releases/" target="_blank" rel="noreferrer">Node.js 릴리스와 LTS 상태</a></li>
+          </ul>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <p>Node.js 설치 가이드</p>
+        <p><a href="./index.html">메인으로 돌아가기</a></p>
+      </footer>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
