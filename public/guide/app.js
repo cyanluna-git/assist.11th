@@ -37,7 +37,7 @@ const sidebarGroups = [
     id: "weeks",
     title: "주차별 교안",
     items: [
-      { label: "1주차 비설치형", href: "./week-1.html" },
+      { label: "1주차 Claude Desktop", href: "./week-1.html" },
       { label: "2주차 IDE와 API", href: "./week-2.html" },
       { label: "3주차 Next.js와 배포", href: "./week-3.html" },
       { label: "4주차 WSL과 CLI", href: "./week-4.html" },
@@ -67,7 +67,7 @@ const sidebarQuickStartMap = {
   },
   accounts: {
     title: "먼저 끝내기",
-    description: "GitHub Vercel Replit 로그인 확인",
+    description: "GitHub와 Claude Desktop 먼저 준비, Vercel은 나중",
     primary: { label: "assist-11th 열기", href: "https://github.com/assist-11th", external: true },
     secondary: { label: "1주차로 이동", href: "./week-1.html" },
   },
@@ -109,8 +109,8 @@ const sidebarQuickStartMap = {
   },
   "week-1": {
     title: "이번 주 추천",
-    description: "Replit 가입 후 프롬프트 3종 실행",
-    primary: { label: "Replit 가입", href: "https://replit.com/", external: true },
+    description: "Claude Desktop에서 프롬프트 3종 실행",
+    primary: { label: "Claude 다운로드", href: "https://claude.ai/download", external: true },
     secondary: { label: "계정 가이드", href: "./accounts.html" },
   },
   "week-2": {
@@ -127,7 +127,7 @@ const sidebarQuickStartMap = {
   },
   "week-4": {
     title: "이번 주 추천",
-    description: "WSL에서 clone install dev 실행",
+    description: "WSL에서 Claude Code로 수정 시작",
     primary: { label: "WSL 가이드", href: "./install-wsl.html" },
     secondary: { label: "assist-11th 열기", href: "https://github.com/assist-11th", external: true },
   },
