@@ -1,6 +1,14 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+function getResendClient() {
+  const apiKey = process.env.RESEND_API_KEY?.trim();
+
+  if (!apiKey) {
+    throw new Error("RESEND_API_KEY is not configured");
+  }
+
+  return new Resend(apiKey);
+}
 
 interface SendDigestParams {
   to: string;
@@ -11,6 +19,7 @@ interface SendDigestParams {
 
 export async function sendDigestEmail(params: SendDigestParams): Promise<void> {
   const { to, name, unreadCount, notifications } = params;
+  const resend = getResendClient();
 
   const notificationList = notifications
     .slice(0, 10)
