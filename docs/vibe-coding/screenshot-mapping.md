@@ -13,7 +13,7 @@
 
 대상 페이지:
 
-- [accounts.html](/Users/cyanluna-pro16/dev/toys/vibe.coding/site/accounts.html)
+- [accounts.html](/Users/cyanluna-pro16/dev/assist.11th/public/guide/accounts.html)
 
 현재 들어간 이미지:
 
@@ -48,7 +48,7 @@
 
 대상 페이지:
 
-- [install-git.html](/Users/cyanluna-pro16/dev/toys/vibe.coding/site/install-git.html)
+- [install-git.html](/Users/cyanluna-pro16/dev/assist.11th/public/guide/install-git.html)
 
 현재 들어간 이미지:
 
@@ -74,7 +74,7 @@
 
 대상 페이지:
 
-- [install-node.html](/Users/cyanluna-pro16/dev/toys/vibe.coding/site/install-node.html)
+- [install-node.html](/Users/cyanluna-pro16/dev/assist.11th/public/guide/install-node.html)
 
 현재 들어간 이미지:
 
@@ -100,7 +100,7 @@
 
 대상 페이지:
 
-- [install-python.html](/Users/cyanluna-pro16/dev/toys/vibe.coding/site/install-python.html)
+- [install-python.html](/Users/cyanluna-pro16/dev/assist.11th/public/guide/install-python.html)
 
 현재 들어간 이미지:
 
@@ -126,7 +126,7 @@
 
 대상 페이지:
 
-- [install-wsl.html](/Users/cyanluna-pro16/dev/toys/vibe.coding/site/install-wsl.html)
+- [install-wsl.html](/Users/cyanluna-pro16/dev/assist.11th/public/guide/install-wsl.html)
 
 현재 들어간 이미지:
 
@@ -156,7 +156,7 @@
 
 대상 페이지:
 
-- [install-vscode.html](/Users/cyanluna-pro16/dev/toys/vibe.coding/site/install-vscode.html)
+- [install-vscode.html](/Users/cyanluna-pro16/dev/assist.11th/public/guide/install-vscode.html)
 
 현재 들어간 이미지:
 
@@ -182,7 +182,7 @@
 
 대상 페이지:
 
-- [install-antigravity.html](/Users/cyanluna-pro16/dev/toys/vibe.coding/site/install-antigravity.html)
+- [install-antigravity.html](/Users/cyanluna-pro16/dev/assist.11th/public/guide/install-antigravity.html)
 
 현재 들어간 이미지:
 
@@ -218,7 +218,7 @@
 
 스크린샷 저장 폴더:
 
-- [site/assets/screenshots](/Users/cyanluna-pro16/dev/toys/vibe.coding/site/assets/screenshots)
+- [assets/screenshots](/Users/cyanluna-pro16/dev/assist.11th/public/guide/assets/screenshots)
 
 권장 방식:
 
@@ -230,4 +230,3 @@
 
 - 공식 캡처 백업 유지 가능
 - 비교와 롤백 쉬움
-

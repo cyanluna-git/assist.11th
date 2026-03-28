@@ -34,7 +34,7 @@
 - 왜 중요한가:
   - 초보자가 가장 자주 막히는 지점
 - 어디에 넣나:
-  - [install-python.html](/Users/cyanluna-pro16/dev/toys/vibe.coding/site/install-python.html)
+  - [install-python.html](/Users/cyanluna-pro16/dev/assist.11th/public/guide/install-python.html)
 
 ### 2. WSL 설치 결과 화면
 
@@ -42,7 +42,7 @@
 - 왜 중요한가:
   - `wsl --install` 실행 후 어떤 화면이 보여야 하는지 알 수 있음
 - 어디에 넣나:
-  - [install-wsl.html](/Users/cyanluna-pro16/dev/toys/vibe.coding/site/install-wsl.html)
+  - [install-wsl.html](/Users/cyanluna-pro16/dev/assist.11th/public/guide/install-wsl.html)
 
 ### 3. Ubuntu 초기 설정 화면
 
@@ -50,7 +50,7 @@
 - 왜 중요한가:
   - username / password 입력에서 초보자가 많이 당황함
 - 어디에 넣나:
-  - [install-wsl.html](/Users/cyanluna-pro16/dev/toys/vibe.coding/site/install-wsl.html)
+  - [install-wsl.html](/Users/cyanluna-pro16/dev/assist.11th/public/guide/install-wsl.html)
 
 ### 4. 버전 확인 명령 결과 화면
 
@@ -62,10 +62,10 @@
 - 왜 중요한가:
   - 학생이 설치 완료 여부를 스스로 판단할 수 있음
 - 어디에 넣나:
-  - [install-git.html](/Users/cyanluna-pro16/dev/toys/vibe.coding/site/install-git.html)
-  - [install-node.html](/Users/cyanluna-pro16/dev/toys/vibe.coding/site/install-node.html)
-  - [install-python.html](/Users/cyanluna-pro16/dev/toys/vibe.coding/site/install-python.html)
-  - [install-wsl.html](/Users/cyanluna-pro16/dev/toys/vibe.coding/site/install-wsl.html)
+  - [install-git.html](/Users/cyanluna-pro16/dev/assist.11th/public/guide/install-git.html)
+  - [install-node.html](/Users/cyanluna-pro16/dev/assist.11th/public/guide/install-node.html)
+  - [install-python.html](/Users/cyanluna-pro16/dev/assist.11th/public/guide/install-python.html)
+  - [install-wsl.html](/Users/cyanluna-pro16/dev/assist.11th/public/guide/install-wsl.html)
 
 ### 5. VS Code 확장 설치 화면
 
@@ -73,7 +73,7 @@
 - 왜 중요한가:
   - 무엇을 설치해야 하는지 한 번에 보여줄 수 있음
 - 어디에 넣나:
-  - [install-vscode.html](/Users/cyanluna-pro16/dev/toys/vibe.coding/site/install-vscode.html)
+  - [install-vscode.html](/Users/cyanluna-pro16/dev/assist.11th/public/guide/install-vscode.html)
 
 ---
 
@@ -87,7 +87,7 @@
 
 연결 페이지:
 
-- [accounts.html](/Users/cyanluna-pro16/dev/toys/vibe.coding/site/accounts.html)
+- [accounts.html](/Users/cyanluna-pro16/dev/assist.11th/public/guide/accounts.html)
 
 ### Git 설치
 
@@ -97,7 +97,7 @@
 
 연결 페이지:
 
-- [install-git.html](/Users/cyanluna-pro16/dev/toys/vibe.coding/site/install-git.html)
+- [install-git.html](/Users/cyanluna-pro16/dev/assist.11th/public/guide/install-git.html)
 
 ### Node.js 설치
 
@@ -107,7 +107,7 @@
 
 연결 페이지:
 
-- [install-node.html](/Users/cyanluna-pro16/dev/toys/vibe.coding/site/install-node.html)
+- [install-node.html](/Users/cyanluna-pro16/dev/assist.11th/public/guide/install-node.html)
 
 ### Python 설치
 
@@ -117,7 +117,7 @@
 
 연결 페이지:
 
-- [install-python.html](/Users/cyanluna-pro16/dev/toys/vibe.coding/site/install-python.html)
+- [install-python.html](/Users/cyanluna-pro16/dev/assist.11th/public/guide/install-python.html)
 
 ### WSL 설치
 
@@ -127,7 +127,7 @@
 
 연결 페이지:
 
-- [install-wsl.html](/Users/cyanluna-pro16/dev/toys/vibe.coding/site/install-wsl.html)
+- [install-wsl.html](/Users/cyanluna-pro16/dev/assist.11th/public/guide/install-wsl.html)
 
 ### VS Code 설치
 
@@ -137,7 +137,7 @@
 
 연결 페이지:
 
-- [install-vscode.html](/Users/cyanluna-pro16/dev/toys/vibe.coding/site/install-vscode.html)
+- [install-vscode.html](/Users/cyanluna-pro16/dev/assist.11th/public/guide/install-vscode.html)
 
 ### Antigravity 설치
 
@@ -147,7 +147,7 @@
 
 연결 페이지:
 
-- [install-antigravity.html](/Users/cyanluna-pro16/dev/toys/vibe.coding/site/install-antigravity.html)
+- [install-antigravity.html](/Users/cyanluna-pro16/dev/assist.11th/public/guide/install-antigravity.html)
 
 ---
 
@@ -182,4 +182,3 @@
 - Antigravity Codelab: https://codelabs.developers.google.com/getting-started-google-antigravity
 - Antigravity 다운로드: https://antigravity.google/download
 - Antigravity 문서: https://antigravity.google/docs
-
