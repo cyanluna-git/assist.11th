@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { eq, sql } from "drizzle-orm";
+import { eq, inArray, sql } from "drizzle-orm";
 
 import { db } from "@/lib/db";
 import { polls, pollOptions, pollVotes, users } from "@/db/schema";
 import { getSession } from "@/lib/auth";
+import { calculatePollParticipationPercent } from "@/lib/poll-metrics";
 
 export const dynamic = "force-dynamic";
 
@@ -63,6 +64,14 @@ export async function GET(
     .where(eq(pollOptions.pollId, id))
     .then((rows) => Number(rows[0]?.count ?? 0));
 
+  const eligibleVoterCount = await db
+    .select({
+      count: sql<number>`COUNT(*)`,
+    })
+    .from(users)
+    .where(inArray(users.role, ["member", "admin"]))
+    .then((rows) => Number(rows[0]?.count ?? 0));
+
   // Current user's voted option IDs
   const userVotes = await db
     .select({ pollOptionId: pollVotes.pollOptionId })
@@ -75,14 +84,13 @@ export async function GET(
   const userVotedOptionIds = userVotes.map((v) => v.pollOptionId);
 
   // Compute percentages
-  const totalVoteCount = options.reduce((sum, o) => sum + Number(o.voteCount), 0);
   const optionsWithPercentage = options.map((o) => ({
     ...o,
     voteCount: Number(o.voteCount),
-    percentage:
-      totalVoteCount > 0
-        ? Math.round((Number(o.voteCount) / totalVoteCount) * 1000) / 10
-        : 0,
+    percentage: calculatePollParticipationPercent(
+      Number(o.voteCount),
+      eligibleVoterCount,
+    ),
   }));
 
   return NextResponse.json({
@@ -90,6 +98,7 @@ export async function GET(
       ...poll,
       options: optionsWithPercentage,
       totalVoters,
+      eligibleVoterCount,
       userVotedOptionIds,
     },
   });

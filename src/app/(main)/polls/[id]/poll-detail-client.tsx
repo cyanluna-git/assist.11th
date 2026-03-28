@@ -1,11 +1,25 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { ArrowLeft, Trash2, Lock, Undo2 } from "lucide-react";
+import { ArrowLeft, Check, Copy, Lock, Pencil, Trash2, Undo2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { PollVoteForm } from "@/components/polls/poll-vote-form";
 import { PollResultsChart } from "@/components/polls/poll-results-chart";
 import { PollVoterList } from "@/components/polls/poll-voter-list";
@@ -15,23 +29,38 @@ import {
   useClosePoll,
   useDeletePoll,
   useRetractVote,
+  useUpdatePoll,
 } from "@/hooks/use-polls";
+import { useCurrentUser } from "@/hooks/use-current-user";
 import { formatDate } from "@/lib/format-date";
+import { formatPollDeadlineLabel, isPollClosed } from "@/lib/poll-deadline";
+import { getPollSharePath } from "@/lib/poll-share";
 
-function isPollClosed(closesAt: string | null): boolean {
-  if (!closesAt) return false;
-  return new Date(closesAt) <= new Date();
+function toLocalDatetimeValue(iso: string) {
+  const date = new Date(iso);
+  const pad = (value: number) => String(value).padStart(2, "0");
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
 }
 
 export function PollDetailClient() {
   const params = useParams();
   const router = useRouter();
   const id = params.id as string;
+  const [copied, setCopied] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
+  const [description, setDescription] = useState("");
+  const [closesAt, setClosesAt] = useState("");
 
   const { data: poll, isLoading, isError } = usePoll(id);
+  const { data: currentUser } = useCurrentUser();
   const closed = poll ? isPollClosed(poll.closesAt) : false;
   const hasVoted = (poll?.userVotedOptionIds?.length ?? 0) > 0;
   const showResults = hasVoted || closed;
+  const canManagePoll = !!(
+    poll &&
+    currentUser &&
+    (poll.creatorId === currentUser.id || currentUser.role === "admin")
+  );
 
   const {
     data: results,
@@ -41,6 +70,16 @@ export function PollDetailClient() {
   const closePoll = useClosePoll(id);
   const deletePoll = useDeletePoll();
   const retractVote = useRetractVote(id);
+  const updatePoll = useUpdatePoll(id);
+
+  useEffect(() => {
+    if (!poll || !editOpen) {
+      return;
+    }
+
+    setDescription(poll.description ?? "");
+    setClosesAt(poll.closesAt ? toLocalDatetimeValue(poll.closesAt) : "");
+  }, [poll, editOpen]);
 
   const handleClose = () => {
     if (!confirm("투표를 마감하시겠습니까?")) return;
@@ -57,6 +96,41 @@ export function PollDetailClient() {
   const handleRetract = () => {
     if (!confirm("투표를 취소하시겠습니까?")) return;
     retractVote.mutate();
+  };
+
+  const handleUpdate = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!canManagePoll) return;
+
+    updatePoll.mutate(
+      {
+        description: description.trim() || null,
+        closesAt: closesAt ? new Date(closesAt).toISOString() : null,
+      },
+      {
+        onSuccess: () => setEditOpen(false),
+      },
+    );
+  };
+
+  const handleCopyShareLink = async () => {
+    const sharePath = getPollSharePath(id);
+    const shareUrl =
+      typeof window === "undefined"
+        ? sharePath
+        : new URL(sharePath, window.location.origin).toString();
+
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(shareUrl);
+      } else {
+        window.prompt("아래 링크를 복사하세요.", shareUrl);
+      }
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch {
+      window.prompt("아래 링크를 복사하세요.", shareUrl);
+    }
   };
 
   // Loading
@@ -138,9 +212,73 @@ export function PollDetailClient() {
 
         {poll.closesAt && !closed && (
           <p className="text-xs text-warning">
-            마감: {new Date(poll.closesAt).toLocaleString("ko-KR")}
+            마감: {formatPollDeadlineLabel(poll.closesAt)}
           </p>
         )}
+
+        <div className="flex flex-wrap items-center gap-2">
+          <Button variant="outline" size="sm" onClick={handleCopyShareLink}>
+            {copied ? (
+              <Check data-icon="inline-start" className="size-3.5" />
+            ) : (
+              <Copy data-icon="inline-start" className="size-3.5" />
+            )}
+            {copied ? "링크 복사됨" : "공유 링크 복사"}
+          </Button>
+          {canManagePoll && (
+            <Dialog open={editOpen} onOpenChange={setEditOpen}>
+              <DialogTrigger
+                render={
+                  <Button variant="outline" size="sm">
+                    <Pencil data-icon="inline-start" className="size-3.5" />
+                    투표 수정
+                  </Button>
+                }
+              />
+              <DialogContent className="sm:max-w-md">
+                <DialogHeader>
+                  <DialogTitle>투표 수정</DialogTitle>
+                  <DialogDescription>
+                    본문과 마감일을 수정할 수 있습니다.
+                  </DialogDescription>
+                </DialogHeader>
+                <form onSubmit={handleUpdate} className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="poll-edit-description">본문</Label>
+                    <Textarea
+                      id="poll-edit-description"
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                      placeholder="투표 설명을 입력하세요"
+                      rows={4}
+                      maxLength={5000}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="poll-edit-deadline">마감일</Label>
+                    <Input
+                      id="poll-edit-deadline"
+                      type="datetime-local"
+                      value={closesAt}
+                      onChange={(e) => setClosesAt(e.target.value)}
+                    />
+                  </div>
+                  {updatePoll.isError && (
+                    <p className="text-xs text-error">{updatePoll.error.message}</p>
+                  )}
+                  <DialogFooter>
+                    <DialogClose render={<Button variant="ghost" />}>
+                      취소
+                    </DialogClose>
+                    <Button type="submit" disabled={updatePoll.isPending}>
+                      {updatePoll.isPending ? "수정 중..." : "수정"}
+                    </Button>
+                  </DialogFooter>
+                </form>
+              </DialogContent>
+            </Dialog>
+          )}
+        </div>
       </div>
 
       {/* Content area: vote form or results */}
@@ -164,6 +302,7 @@ export function PollDetailClient() {
             <PollResultsChart
               options={results.options}
               totalVoters={results.totalVoters}
+              eligibleVoterCount={results.eligibleVoterCount}
               userVotedOptionIds={poll.userVotedOptionIds}
             />
             {/* Voter list for non-anonymous polls */}
@@ -179,6 +318,7 @@ export function PollDetailClient() {
               voters: undefined,
             }))}
             totalVoters={poll.totalVoters}
+            eligibleVoterCount={poll.eligibleVoterCount}
             userVotedOptionIds={poll.userVotedOptionIds}
           />
         )}
@@ -200,7 +340,7 @@ export function PollDetailClient() {
         )}
 
         {/* Close poll: only for creator, active poll */}
-        {!closed && (
+        {canManagePoll && !closed && (
           <Button
             variant="outline"
             size="sm"
@@ -213,15 +353,17 @@ export function PollDetailClient() {
         )}
 
         {/* Delete poll */}
-        <Button
-          variant="destructive"
-          size="sm"
-          onClick={handleDelete}
-          disabled={deletePoll.isPending}
-        >
-          <Trash2 data-icon="inline-start" className="size-3.5" />
-          {deletePoll.isPending ? "삭제 중..." : "삭제"}
-        </Button>
+        {canManagePoll && (
+          <Button
+            variant="destructive"
+            size="sm"
+            onClick={handleDelete}
+            disabled={deletePoll.isPending}
+          >
+            <Trash2 data-icon="inline-start" className="size-3.5" />
+            {deletePoll.isPending ? "삭제 중..." : "삭제"}
+          </Button>
+        )}
       </div>
     </div>
   );

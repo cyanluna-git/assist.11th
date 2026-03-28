@@ -180,6 +180,35 @@ export function useDeletePoll() {
   });
 }
 
+// ── Update Poll ──
+
+export function useUpdatePoll(pollId: string) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (payload: {
+      description?: string | null;
+      closesAt?: string | null;
+    }) => {
+      const res = await fetch(`/api/polls/${pollId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Failed to update poll");
+      }
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["poll", pollId] });
+      queryClient.invalidateQueries({ queryKey: ["pollResults", pollId] });
+      queryClient.invalidateQueries({ queryKey: ["polls"] });
+    },
+  });
+}
+
 // ── Add Options ──
 
 export function useAddOptions(pollId: string) {

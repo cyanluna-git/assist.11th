@@ -4,8 +4,11 @@ import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+
+const PUBLIC_GUIDE_URL = "/guide/index.html";
 
 function RegisterForm() {
   const router = useRouter();
@@ -137,6 +140,18 @@ export default function RegisterPage() {
             로그인
           </Link>
         </p>
+        <div className="mt-6 rounded-2xl border border-border-subtle bg-surface-alt/60 p-4">
+          <p className="text-sm font-medium text-text-main">수업 안내 먼저 보기</p>
+          <p className="mt-1 text-sm text-text-muted">로그인 없이 바로 열기</p>
+          <Link
+            href={PUBLIC_GUIDE_URL}
+            target="_blank"
+            rel="noreferrer"
+            className={cn(buttonVariants({ variant: "outline" }), "mt-3 w-full")}
+          >
+            바이브코딩 안내 페이지 열기
+          </Link>
+        </div>
       </CardContent>
     </Card>
   );

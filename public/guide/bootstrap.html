@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>최소 부트스트랩 | 바이브코딩 입문</title>
+    <meta
+      name="description"
+      content="Windows에서 WSL 중심으로 Git, Python, Node.js, Claude Code, Gemini CLI까지 준비하는 최소 부트스트랩 가이드."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body data-page="bootstrap">
+    <div class="site-shell">
+      <header class="topbar">
+        <a class="brand" href="./index.html">
+          <span class="brand-mark">VC</span>
+          <span class="brand-copy">
+            <strong>Vibe Coding 101</strong>
+            <small>최소 부트스트랩</small>
+          </span>
+        </a>
+        <nav class="main-nav" aria-label="가이드 메뉴">
+          <a href="./setup.html">사전 준비</a>
+          <a href="./install-wsl.html">WSL</a>
+          <a href="./install-git.html">Git</a>
+          <a href="./install-python.html">Python</a>
+          <a href="./install-node.html">Node.js</a>
+          <a href="./week-4.html">4주차</a>
+        </nav>
+      </header>
+
+      <main class="page-main">
+        <section class="page-hero">
+          <p class="eyebrow">Bootstrap</p>
+          <h1>Windows에서는 PowerShell로 시작하고, 실제 작업은 WSL 안에서 끝낸다.</h1>
+          <p class="lede">
+            최소 부트스트랩의 목표는 하나다. WSL Ubuntu 안에 Git, Python 3, Node.js,
+            Claude Code, Gemini CLI를 올리고 바로 프로젝트를 시작할 수 있는 상태를 만든다.
+            Windows 경로와 PowerShell 의존도를 줄이면 에이전트 코딩 환경이 훨씬 안정적이다.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-solid" href="./install-wsl.html">WSL 설치 가이드</a>
+            <a class="button button-ghost" href="./week-4.html">4주차 WSL 교안</a>
+          </div>
+        </section>
+
+        <section class="section-grid">
+          <article class="feature-card accent-card">
+            <p class="section-label">원칙</p>
+            <h2>PowerShell은 WSL 설치까지만</h2>
+            <ul class="bullet-list">
+              <li>처음 한 번만 관리자 PowerShell에서 <code>wsl --install</code> 실행</li>
+              <li>그 다음부터는 Ubuntu 터미널 안에서 Git, Python, Node, AI CLI 설치</li>
+              <li>프로젝트 폴더는 가능하면 <code>~/projects</code> 아래에서 관리</li>
+            </ul>
+          </article>
+          <article class="feature-card">
+            <p class="section-label">폴더 규칙</p>
+            <h2>코드 프로젝트는 WSL 내부 영문 경로 권장</h2>
+            <ul class="bullet-list">
+              <li><code>/mnt/c/Users/...</code> 대신 <code>~/projects/...</code> 권장</li>
+              <li>폴더명은 영문 소문자와 하이픈 위주 권장</li>
+              <li>한글, 공백, 괄호가 들어간 경로는 문제 원인일 때가 많음</li>
+            </ul>
+          </article>
+        </section>
+
+        <section class="diagram-card">
+          <div class="diagram-heading">
+            <p class="section-label">Bootstrap Flow</p>
+            <h2>최소 준비 순서</h2>
+          </div>
+
+          <div class="readiness-diagram">
+            <article class="readiness-node" data-icon="WSL">
+              <strong>WSL</strong>
+              <p><code>wsl --version</code></p>
+            </article>
+            <div class="readiness-arrow">→</div>
+            <article class="readiness-node" data-icon="GIT">
+              <strong>Git</strong>
+              <p><code>git --version</code></p>
+            </article>
+            <div class="readiness-arrow">→</div>
+            <article class="readiness-node" data-icon="PY">
+              <strong>Python 3</strong>
+              <p><code>python3 --version</code></p>
+            </article>
+            <div class="readiness-arrow">→</div>
+            <article class="readiness-node" data-icon="NODE">
+              <strong>Node.js</strong>
+              <p><code>node --version</code></p>
+            </article>
+            <div class="readiness-arrow">→</div>
+            <article class="readiness-node" data-icon="AI">
+              <strong>Claude + Gemini</strong>
+              <p><code>claude</code> <code>gemini</code></p>
+            </article>
+          </div>
+        </section>
+
+        <section class="guide-step-list">
+          <article class="guide-step">
+            <p class="section-label">Step 1</p>
+            <h2>관리자 PowerShell에서 WSL 설치 상태 확인</h2>
+            <p>
+              Windows에서 시작 메뉴를 열고 PowerShell을 관리자 권한으로 실행한다. 이미 설치된
+              경우 버전 확인부터 하고, 미설치 상태면 바로 Ubuntu를 설치한다.
+            </p>
+            <pre class="code-block"><code>wsl --version
+wsl --install
+
+# Ubuntu를 명시해서 설치하고 싶다면
+wsl --install -d Ubuntu
+
+# 설치 가능한 배포판 확인
+wsl --list --online</code></pre>
+            <p>
+              설치가 끝나면 재부팅하고, 다시 Windows에 로그인한 뒤 Ubuntu를 열어 Linux용 사용자
+              이름과 비밀번호를 만든다.
+            </p>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">Step 2</p>
+            <h2>Ubuntu 안으로 들어가 기본 패키지부터 정리</h2>
+            <p>
+              여기서부터는 PowerShell이 아니라 WSL Ubuntu 터미널 안에서 진행한다. 패키지 목록을
+              최신 상태로 갱신하고, 이후 작업에 자주 필요한 기반 도구를 한 번에 설치한다.
+            </p>
+            <pre class="code-block"><code>wsl
+sudo apt update
+sudo apt upgrade -y
+sudo apt install -y git curl unzip python3 python3-pip python3-venv build-essential</code></pre>
+            <p>
+              Ubuntu 비밀번호를 물으면 방금 만든 Linux 비밀번호를 입력한다. 입력 중 화면에 글자가
+              안 보여도 정상이다.
+            </p>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">Step 3</p>
+            <h2>Git과 Python 3가 WSL 안에서 잡히는지 확인</h2>
+            <p>
+              이 단계에서는 명령이 실제로 Ubuntu 경로에서 실행되는지만 확인하면 된다.
+              <code>python</code> 대신 <code>python3</code>를 쓰는 습관을 권장한다.
+            </p>
+            <pre class="code-block"><code>which git
+git --version
+
+which python3
+python3 --version
+pip3 --version</code></pre>
+            <p>
+              <code>which</code> 결과가 보통 <code>/usr/bin/...</code> 처럼 Linux 경로로 나오면
+              정상이다.
+            </p>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">Step 4</p>
+            <h2>Node.js는 WSL 안에 LTS로 설치</h2>
+            <p>
+              Gemini CLI와 대부분의 웹 개발 도구는 Node.js가 필요하다. WSL에서는 버전 관리가 쉬운
+              <code>nvm</code> 방식이 가장 덜 꼬인다.
+            </p>
+            <pre class="code-block"><code>curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+
+# bash를 쓰면
+source ~/.bashrc
+
+# zsh를 쓰면
+# source ~/.zshrc
+
+command -v nvm
+nvm install --lts
+nvm use --lts
+node --version
+npm --version</code></pre>
+            <p>
+              <code>command -v nvm</code> 결과로 <code>nvm</code> 이 출력되면 정상이다. 이 단계가
+              끝나야 <code>npm install -g ...</code> 계열 도구를 안정적으로 설치할 수 있다.
+            </p>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">Step 5</p>
+            <h2>Claude Code와 Gemini CLI 설치</h2>
+            <p>
+              Claude Code와 Gemini CLI 모두 Node.js 기반으로 설치한다. Claude는
+              <code>sudo npm install -g</code> 대신 일반 사용자 권한으로 설치하고, Gemini는 npm
+              전역 설치 후 Google 계정으로 로그인하는 흐름이 가장 단순하다.
+            </p>
+            <pre class="code-block"><code># Claude Code 설치
+npm install -g @anthropic-ai/claude-code
+claude --version
+claude doctor
+
+# Gemini CLI 설치
+npm install -g @google/gemini-cli@latest
+gemini</code></pre>
+            <p>
+              Claude는 <code>claude</code>, Gemini는 <code>gemini</code> 를 실행한 뒤 브라우저
+              로그인 흐름을 따라가면 된다. Claude Code는 무료 Claude.ai 플랜만으로는 접근이 안 될 수
+              있으므로 계정 종류를 미리 확인한다.
+            </p>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">Step 6</p>
+            <h2>프로젝트용 작업 폴더를 WSL 홈 아래에 만든다</h2>
+            <p>
+              이후부터 clone, install, dev server 실행, AI 에이전트 호출은 이 폴더 안에서 한다.
+              경로 문제를 줄이기 위해 영문 소문자 중심의 폴더명을 권장한다.
+            </p>
+            <pre class="code-block"><code>mkdir -p ~/projects
+cd ~/projects
+pwd
+
+# 예시
+mkdir my-first-app
+cd my-first-app</code></pre>
+          </article>
+        </section>
+
+        <section class="section-grid">
+          <article class="feature-card">
+            <p class="section-label">빠른 검증</p>
+            <h2>한 번에 확인하는 점검 명령</h2>
+            <pre class="code-block"><code>wsl --version
+wsl -l -v
+
+# 아래부터는 Ubuntu 안에서
+git --version
+python3 --version
+node --version
+npm --version
+claude --version</code></pre>
+          </article>
+          <article class="feature-card accent-card">
+            <p class="section-label">판단 기준</p>
+            <h2>설치보다 중요한 것</h2>
+            <ul class="bullet-list">
+              <li>도구가 WSL 안에서 실행되는가</li>
+              <li>프로젝트가 WSL 홈 디렉토리 안에 있는가</li>
+              <li>에이전트가 Git, Node, Python 경로를 바로 찾는가</li>
+            </ul>
+          </article>
+        </section>
+
+        <section class="guide-step-list">
+          <article class="guide-step">
+            <p class="section-label">문제 1</p>
+            <h2><code>wsl --install</code> 이 안 되거나 권한 오류가 날 때</h2>
+            <ul class="bullet-list">
+              <li>반드시 관리자 권한 PowerShell에서 실행한다.</li>
+              <li><code>wsl --list --online</code> 이 동작하면 <code>wsl --install -d Ubuntu</code> 로 다시 시도한다.</li>
+              <li>Microsoft Store 연동이 꼬이면 <code>wsl --install --web-download -d Ubuntu</code> 를 시도한다.</li>
+            </ul>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">문제 2</p>
+            <h2><code>python</code> 명령이 없는데 <code>python3</code> 는 될 때</h2>
+            <ul class="bullet-list">
+              <li>WSL Ubuntu에서는 이 상황이 흔하다.</li>
+              <li>기본 확인 명령을 <code>python3 --version</code> 으로 통일한다.</li>
+              <li>패키지 설치도 <code>pip3</code> 를 기준으로 생각하면 덜 헷갈린다.</li>
+            </ul>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">문제 3</p>
+            <h2><code>nvm</code>, <code>node</code>, <code>npm</code> 이 새 터미널에서 안 잡힐 때</h2>
+            <ul class="bullet-list">
+              <li>현재 셸을 닫고 Ubuntu를 다시 연다.</li>
+              <li>즉시 확인하려면 <code>source ~/.bashrc</code> 또는 <code>source ~/.zshrc</code> 를 실행한다.</li>
+              <li><code>command -v nvm</code> 이 비어 있으면 설치 스크립트가 셸 설정 파일에 반영되지 않은 상태다.</li>
+            </ul>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">문제 4</p>
+            <h2>Claude Code 설치가 WSL을 Windows로 잘못 보거나 <code>node: not found</code> 류 문제가 날 때</h2>
+            <ul class="bullet-list">
+              <li><code>which node</code> 와 <code>which npm</code> 결과가 <code>/mnt/c/</code> 를 가리키면 Windows 쪽 Node를 보고 있는 상태다.</li>
+              <li>먼저 <code>npm config set os linux</code> 를 실행한 뒤 다시 설치를 시도한다.</li>
+              <li>필요하면 <code>npm install -g @anthropic-ai/claude-code --force --no-os-check</code> 로 재시도하고, 이때도 <code>sudo</code> 는 쓰지 않는다.</li>
+              <li>이 경우 Node를 WSL 안에 다시 설치하고 셸을 다시 연다.</li>
+              <li>가능하면 Windows 경로 프로젝트 대신 <code>~/projects</code> 아래 프로젝트에서 실행한다.</li>
+            </ul>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">문제 5</p>
+            <h2>Claude 로그인은 되는데 실제 사용 권한이 없을 때</h2>
+            <ul class="bullet-list">
+              <li>Claude Code는 계정 종류에 따라 접근 가능 여부가 다르다.</li>
+              <li>무료 Claude.ai 플랜만으로는 사용이 제한될 수 있다.</li>
+              <li>이 경우 Pro, Max, Teams, Enterprise 또는 Console 기반 접근 여부를 확인한다.</li>
+            </ul>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">문제 6</p>
+            <h2>한글 폴더명, 공백, Windows 경로에서 이상하게 꼬일 때</h2>
+            <ul class="bullet-list">
+              <li>프로젝트를 <code>/mnt/c/Users/...</code> 에서 돌리고 있지 않은지 먼저 확인한다.</li>
+              <li>코드 프로젝트는 <code>~/projects/my-app</code> 같은 영문 경로로 옮긴다.</li>
+              <li>이미 clone 한 저장소라면 WSL 홈 아래에 새로 clone 하는 편이 보통 더 빠르다.</li>
+            </ul>
+          </article>
+        </section>
+
+        <section class="note-block">
+          <p class="section-label">한 줄 정리</p>
+          <p>
+            PowerShell은 WSL 설치용, 실제 개발은 WSL용. Git, Python, Node, AI CLI까지 전부 WSL
+            안에서 맞추면 에이전트가 덜 흔들린다.
+          </p>
+        </section>
+
+        <section class="note-block">
+          <p class="section-label">공식 링크</p>
+          <ul class="bullet-list">
+            <li><a class="text-link" href="https://learn.microsoft.com/en-us/windows/wsl/install" target="_blank" rel="noreferrer">Microsoft WSL 설치 문서</a></li>
+            <li><a class="text-link" href="https://learn.microsoft.com/en-us/windows/wsl/basic-commands" target="_blank" rel="noreferrer">Microsoft WSL 기본 명령 문서</a></li>
+            <li><a class="text-link" href="https://github.com/nvm-sh/nvm" target="_blank" rel="noreferrer">nvm 공식 GitHub</a></li>
+            <li><a class="text-link" href="https://docs.anthropic.com/ko/docs/claude-code/setup" target="_blank" rel="noreferrer">Claude Code 공식 설치 문서</a></li>
+            <li><a class="text-link" href="https://github.com/google-gemini/gemini-cli" target="_blank" rel="noreferrer">Gemini CLI 공식 GitHub</a></li>
+          </ul>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <p>최소 부트스트랩 페이지</p>
+        <p><a href="./setup.html">사전 준비로 돌아가기</a></p>
+      </footer>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

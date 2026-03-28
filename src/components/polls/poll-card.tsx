@@ -5,15 +5,11 @@ import { Users, CheckCircle2, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Avatar } from "@/components/ui/avatar";
 import { formatDate } from "@/lib/format-date";
+import { formatPollDeadlineLabel, isPollClosed } from "@/lib/poll-deadline";
 import type { PollSummary } from "@/types/poll";
 
 interface PollCardProps {
   poll: PollSummary;
-}
-
-function isPollClosed(closesAt: string | null): boolean {
-  if (!closesAt) return false;
-  return new Date(closesAt) <= new Date();
 }
 
 export function PollCard({ poll }: PollCardProps) {
@@ -79,7 +75,7 @@ export function PollCard({ poll }: PollCardProps) {
                 <span>&middot;</span>
                 <span className="flex items-center gap-0.5 text-warning">
                   <Clock className="size-3" />
-                  {formatDate(poll.closesAt)} 마감
+                  {formatPollDeadlineLabel(poll.closesAt)} 마감
                 </span>
               </>
             )}
