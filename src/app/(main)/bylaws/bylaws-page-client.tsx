@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { FileText, GitCompareArrows, Scale, ChevronRight } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -303,8 +305,13 @@ function ContentBlock({ text, className }: { text: string | null; className?: st
     );
   }
   return (
-    <div className={cn("whitespace-pre-wrap text-sm leading-7", className)}>
-      {text}
+    <div
+      className={cn(
+        "text-sm leading-7 [&_li]:ml-5 [&_li]:list-disc [&_ol]:ml-5 [&_ol]:list-decimal [&_p]:whitespace-pre-wrap [&_table]:w-full [&_table]:border-collapse [&_td]:border [&_td]:border-line-subtle [&_td]:px-3 [&_td]:py-2 [&_th]:border [&_th]:border-line-subtle [&_th]:bg-muted/50 [&_th]:px-3 [&_th]:py-2",
+        className,
+      )}
+    >
+      <ReactMarkdown remarkPlugins={[remarkGfm]}>{text}</ReactMarkdown>
     </div>
   );
 }
