@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { eq, sql } from "drizzle-orm";
+import { and, eq, sql } from "drizzle-orm";
 
 import { db } from "@/lib/db";
-import { posts, users } from "@/db/schema";
+import { bookmarks, comments, posts, reactions, users } from "@/db/schema";
 import { getSession } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
@@ -109,7 +109,19 @@ export async function DELETE(
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  await db.delete(posts).where(eq(posts.id, id));
+  try {
+    await db.transaction(async (tx) => {
+      await tx.delete(comments).where(eq(comments.postId, id));
+      await tx.delete(reactions).where(eq(reactions.postId, id));
+      await tx
+        .delete(bookmarks)
+        .where(and(eq(bookmarks.targetType, "post"), eq(bookmarks.targetId, id)));
+      await tx.delete(posts).where(eq(posts.id, id));
+    });
+  } catch (error) {
+    console.error("[posts/[id] DELETE]", error);
+    return NextResponse.json({ error: "Failed to delete post" }, { status: 500 });
+  }
 
   return NextResponse.json({ success: true });
 }

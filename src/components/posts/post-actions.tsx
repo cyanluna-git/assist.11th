@@ -28,6 +28,9 @@ export function PostActions({
     if (!confirm("정말 삭제하시겠습니까?")) return;
     deletePost.mutate(postId, {
       onSuccess: () => router.push("/posts"),
+      onError: (error) => {
+        alert(error instanceof Error ? error.message : "게시글 삭제에 실패했습니다.");
+      },
     });
   };
 

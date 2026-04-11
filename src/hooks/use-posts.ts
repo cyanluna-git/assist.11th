@@ -93,7 +93,16 @@ export function useDeletePost() {
   return useMutation({
     mutationFn: async (id: string) => {
       const res = await fetch(`/api/posts/${id}`, { method: "DELETE" });
-      if (!res.ok) throw new Error("Failed to delete post");
+      if (!res.ok) {
+        let message = "Failed to delete post";
+        try {
+          const data = (await res.json()) as { error?: string };
+          if (data.error) message = data.error;
+        } catch {
+          // keep default message
+        }
+        throw new Error(message);
+      }
       return res.json();
     },
     onSuccess: () => {
