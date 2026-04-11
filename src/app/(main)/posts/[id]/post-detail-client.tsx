@@ -2,6 +2,8 @@
 
 import { useParams, useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Avatar } from "@/components/ui/avatar";
@@ -92,8 +94,8 @@ export function PostDetailClient() {
           </div>
 
           <div className="border-t border-foreground/5 pt-4">
-            <div className="prose prose-sm max-w-none text-sm text-text-strong whitespace-pre-wrap">
-              {post.content}
+            <div className="prose prose-sm max-w-none text-sm leading-7 text-text-strong [&_h1]:text-2xl [&_h1]:font-semibold [&_h2]:text-xl [&_h2]:font-semibold [&_h3]:text-lg [&_h3]:font-semibold [&_li]:ml-5 [&_li]:list-disc [&_ol]:ml-5 [&_ol]:list-decimal [&_p]:whitespace-pre-wrap [&_table]:w-full [&_table]:border-collapse [&_td]:border [&_td]:border-line-subtle [&_td]:px-3 [&_td]:py-2 [&_th]:border [&_th]:border-line-subtle [&_th]:bg-muted/50 [&_th]:px-3 [&_th]:py-2">
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.content}</ReactMarkdown>
             </div>
           </div>
 
