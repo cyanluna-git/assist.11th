@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Git / GitHub | 망친 코드, 어떻게 되돌리나?</title>
+    <meta
+      name="description"
+      content="바이브코딩 실전 1강. Git과 GitHub로 코드 버전을 관리하고, 망친 코드를 안전하게 되돌리는 흐름. Claude Code로 모든 실습 진행."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body data-page="git">
+    <div class="site-shell">
+      <header class="topbar">
+        <a class="brand" href="./index.html">
+          <span class="brand-mark">GIT</span>
+          <span class="brand-copy">
+            <strong>Vibe Coding 101</strong>
+            <small>Git / GitHub 버전 관리</small>
+          </span>
+        </a>
+        <nav class="main-nav" aria-label="강의 이동">
+          <a href="./index.html">메인</a>
+          <a href="./git-github.html" aria-current="page">Git/GitHub</a>
+          <a href="https://github.com/orgs/assist-11th/dashboard" target="_blank" rel="noreferrer">조직 공간</a>
+        </nav>
+      </header>
+
+      <main class="page-main">
+
+        <!-- Hero -->
+        <section class="page-hero">
+          <p class="eyebrow">실전 1강 · Git / GitHub</p>
+          <h1>망친 코드,<br>어떻게 되돌리나?</h1>
+          <p class="lede">
+            AI는 코드를 빠르게 많이 바꾼다
+            그래서 되돌리는 능력이 더 중요해진다
+            Git은 그 능력이다
+          </p>
+          <div class="hero-actions">
+            <a class="button button-solid" href="#terms">핵심 용어 보기</a>
+            <a class="button button-ghost" href="#practice">실습으로 이동</a>
+          </div>
+        </section>
+
+        <!-- 목표 + 준비 -->
+        <section class="section-grid">
+          <article class="feature-card accent-card">
+            <p class="section-label">이번 강의 목표</p>
+            <h2>코드를 쌓고 되돌리는 법</h2>
+            <ul class="bullet-list">
+              <li>Git이 왜 필요한지 직접 체감하기</li>
+              <li>커밋 · 푸시 · 되돌리기 흐름 한 번씩 해보기</li>
+              <li>내 HTML 프로젝트를 GitHub에 올리기</li>
+              <li>Claude Code에게 모든 Git 작업 지시해보기</li>
+            </ul>
+          </article>
+          <article class="feature-card">
+            <p class="section-label">수업 전 확인</p>
+            <ul class="bullet-list">
+              <li>WSL + VS Code + Claude Code 세팅 완료</li>
+              <li>HTML 프로젝트 파일 로컬에 있음</li>
+              <li><a class="text-link" href="https://github.com" target="_blank" rel="noreferrer">GitHub 계정</a> 로그인 상태</li>
+              <li><a class="text-link" href="https://github.com/orgs/assist-11th/dashboard" target="_blank" rel="noreferrer">assist-11th 조직</a> 초대 수락 완료</li>
+            </ul>
+            <p class="example-line">Git 설치 여부 확인 → <code>git --version</code></p>
+          </article>
+        </section>
+
+        <!-- 버전관리 지옥 사례 -->
+        <section class="diagram-card">
+          <div class="diagram-heading">
+            <p class="section-label">왜 Git이 필요한가</p>
+            <h2>버전관리 지옥 사례</h2>
+          </div>
+          <figure style="margin: 1rem 0 1.5rem; text-align: center;">
+            <img
+              src="./assets/git-version-hell.png"
+              alt="파일 이름으로 버전 관리하는 지옥 상황 — 프로젝트_최종_진짜_수정.html 등"
+              style="max-width: 100%; border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);"
+            />
+            <figcaption style="margin-top: 0.5rem; font-size: 0.78rem; color: var(--muted);">
+              출처: <a class="text-link" href="https://aonee.tistory.com/15#google_vignette" target="_blank" rel="noreferrer">https://aonee.tistory.com/15</a>
+            </figcaption>
+          </figure>
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 0.5rem; align-items: start;">
+            <article class="process-node process-node-accent">
+              <span>상황 1</span>
+              <strong>파일 이름 지옥</strong>
+              <p>index_final.html<br>index_진짜최종.html<br>뭐가 최신인지 모름</p>
+            </article>
+            <article class="process-node process-node-accent">
+              <span>상황 2</span>
+              <strong>되돌리기 불가</strong>
+              <p>AI가 스타일 싹 바꿨는데 더 이상해짐<br>이전으로 못 돌아감</p>
+            </article>
+            <article class="process-node process-node-accent">
+              <span>상황 3</span>
+              <strong>카톡 협업</strong>
+              <p>친구한테 파일 카톡으로 보냄<br>누가 뭘 수정했는지 모름</p>
+            </article>
+            <article class="process-node process-node-accent">
+              <span>상황 4</span>
+              <strong>작업 증발</strong>
+              <p>노트북 바꿨는데<br>파일이 거기 없음</p>
+            </article>
+          </div>
+          <div class="note-block" style="margin-top: 1.5rem;">
+            <p class="section-label">핵심 문장</p>
+            <p>파일 이름으로 버전을 관리하면 결국 지옥이 온다.<br>Git은 파일 이름은 그대로 두고, 변경 이력을 따로 쌓는다.</p>
+          </div>
+        </section>
+
+        <!-- 핵심 용어 -->
+        <section class="guide-step-list" id="terms">
+          <article class="guide-step">
+            <p class="section-label">핵심 용어 6개</p>
+            <h2>이것만 알면 오늘 실습 가능</h2>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">용어 1</p>
+            <h2>Repository <span style="font-weight:400; color: var(--muted)">레포지토리</span></h2>
+            <p>프로젝트 전체의 타임캡슐 보관함.<br>파일만 저장하는 폴더가 아니라, 변경 이력까지 함께 쌓이는 공간이다.</p>
+            <pre class="code-block"><code># 현재 폴더를 레포로 만들기
+git init</code></pre>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">용어 2</p>
+            <h2>Commit <span style="font-weight:400; color: var(--muted)">커밋</span></h2>
+            <p>"지금 이 상태를 저장"하는 스냅샷 찍기.<br>Ctrl+S는 파일을 덮어쓴다. 커밋은 이전 상태를 기억하면서 새 상태를 쌓는다.</p>
+            <pre class="code-block"><code># 파일을 커밋할 준비 목록에 추가
+git add .
+
+# 스냅샷 저장 (메시지 필수)
+git commit -m "첫 번째 버전"</code></pre>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">용어 3</p>
+            <h2>원격 레포 <span style="font-weight:400; color: var(--muted)">Remote / Origin</span></h2>
+            <p>GitHub에 있는 온라인 보관함.<br>내 컴퓨터의 레포와 GitHub 레포를 연결하는 이름이 <code>origin</code>이다.</p>
+            <pre class="code-block"><code># GitHub 레포와 연결
+git remote add origin https://github.com/assist-11th/내저장소.git</code></pre>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">용어 4</p>
+            <h2>Push <span style="font-weight:400; color: var(--muted)">푸시</span></h2>
+            <p>내 컴퓨터 → GitHub로 올리기.<br>커밋한 내용을 원격 레포에 반영한다.</p>
+            <pre class="code-block"><code>git push origin main</code></pre>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">용어 5</p>
+            <h2>Pull <span style="font-weight:400; color: var(--muted)">풀</span></h2>
+            <p>GitHub → 내 컴퓨터로 내려받기.<br>다른 컴퓨터나 협업자가 올린 내용을 가져올 때 사용한다.</p>
+            <pre class="code-block"><code>git pull origin main</code></pre>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">용어 6</p>
+            <h2>Merge <span style="font-weight:400; color: var(--muted)">머지</span></h2>
+            <p>두 버전을 하나로 합치기.<br>지금 단계에서는 "다른 브랜치의 작업을 메인에 합친다"는 개념 정도만 알면 된다.</p>
+            <pre class="code-block"><code># 오늘은 개념만 — 실습은 다음 강의
+git merge 브랜치이름</code></pre>
+          </article>
+        </section>
+
+        <!-- Git vs GitHub 구분 -->
+        <section class="diagram-card">
+          <div class="diagram-heading">
+            <p class="section-label">자주 헷갈리는 것</p>
+            <h2>Git과 GitHub는 다르다</h2>
+          </div>
+          <div class="process-diagram">
+            <article class="process-node process-node-primary">
+              <span>Git</span>
+              <strong>내 컴퓨터 안</strong>
+              <p>변경 이력을 관리하는 도구<br>터미널에서 실행하는 명령어</p>
+            </article>
+            <div class="process-arrow">→</div>
+            <article class="process-node process-node-success">
+              <span>GitHub</span>
+              <strong>온라인 서버</strong>
+              <p>그 기록을 저장하고 공유하는 공간<br>브라우저에서 보는 웹사이트</p>
+            </article>
+          </div>
+          <div class="note-block" style="margin-top: 1.5rem;">
+            <p class="section-label">강의용 한 줄</p>
+            <p>Git이 작업 기록을 남기고, GitHub가 그 기록을 쌓아두는 장소가 된다.</p>
+          </div>
+        </section>
+
+        <!-- 실습 -->
+        <section class="guide-step-list" id="practice">
+          <article class="guide-step">
+            <p class="section-label">실습 흐름</p>
+            <h2>Claude Code에게 지시하면서 하기</h2>
+            <p style="color: var(--muted);">터미널 명령어를 직접 외우지 않아도 된다. Claude Code에게 지시하면 Git 명령어를 대신 실행해준다.</p>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">0–10분 · Step 1</p>
+            <h2>레포 만들고 첫 커밋</h2>
+            <p>Claude Code에 이렇게 붙여넣기:</p>
+            <pre class="code-block"><code>내 HTML 프로젝트 폴더를 git 레포로 초기화하고,
+현재 파일들을 첫 커밋으로 저장해줘.
+커밋 메시지는 "첫 번째 버전"으로.</code></pre>
+            <ul class="bullet-list">
+              <li>완료 후 <code>git log</code>로 커밋 기록 확인</li>
+              <li><code>.git</code> 폴더가 생성됐는지 확인</li>
+            </ul>
+            <p class="example-line">핵심 체험 · 이제 이 프로젝트는 이력이 쌓이기 시작한다</p>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">10–25분 · Step 2</p>
+            <h2>코드를 망치고 — 되돌리기</h2>
+            <p>먼저 Claude Code에게 지시해서 변경해본다:</p>
+            <pre class="code-block"><code>index.html의 배경색을 형광 초록으로 바꿔줘.</code></pre>
+            <p>브라우저에서 결과 확인 → 마음에 안 들면:</p>
+            <pre class="code-block"><code>방금 변경사항을 되돌려줘. git으로.</code></pre>
+            <ul class="bullet-list">
+              <li>되돌아간 것을 브라우저에서 확인</li>
+              <li>Claude Code가 어떤 git 명령어를 썼는지 확인</li>
+            </ul>
+            <p class="example-line">핵심 체험 · 망쳤어도 돌아올 수 있다는 안전감</p>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">25–45분 · Step 3</p>
+            <h2>GitHub에 Push</h2>
+            <p>GitHub에서 빈 레포를 하나 만든다 (assist-11th 조직 안에). 그 후 Claude Code에게:</p>
+            <pre class="code-block"><code>GitHub에 'my-first-project' 이름으로 원격 레포를 연결하고
+지금까지 커밋한 것들을 push해줘.
+
+GitHub 레포 주소: https://github.com/assist-11th/my-first-project.git</code></pre>
+            <ul class="bullet-list">
+              <li>GitHub에서 파일이 올라간 것 확인</li>
+              <li>커밋 히스토리가 GitHub에도 보이는지 확인</li>
+              <li>화면 상단 "X commits" 클릭해서 이력 탐색해보기</li>
+            </ul>
+            <p class="example-line">핵심 체험 · 내 프로젝트가 온라인에 쌓인다</p>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">45–55분 · Step 4</p>
+            <h2>작은 수정 + 두 번째 커밋</h2>
+            <p>Claude Code에게:</p>
+            <pre class="code-block"><code>제목 텍스트를 내 이름으로 바꾸고
+커밋 메시지 "제목 수정"으로 커밋한 뒤 push까지 해줘.</code></pre>
+            <ul class="bullet-list">
+              <li>GitHub에서 커밋이 2개가 된 것 확인</li>
+              <li>각 커밋 클릭해서 어떤 줄이 바뀌었는지 diff 확인</li>
+            </ul>
+            <p class="example-line">핵심 체험 · 이력이 쌓이는 감각</p>
+          </article>
+
+          <article class="guide-step">
+            <p class="section-label">55–60분 · 마무리</p>
+            <h2>오늘의 습관 3가지</h2>
+            <div class="process-diagram">
+              <article class="process-node process-node-primary">
+                <span>①</span>
+                <strong>작업 시작 전</strong>
+                <p>커밋 한 번<br>안전망 만들기</p>
+              </article>
+              <div class="process-arrow">→</div>
+              <article class="process-node process-node-accent">
+                <span>②</span>
+                <strong>AI가 크게 바꾸기 전</strong>
+                <p>커밋 한 번<br>복구 지점 확보</p>
+              </article>
+              <div class="process-arrow">→</div>
+              <article class="process-node process-node-success">
+                <span>③</span>
+                <strong>작업 끝나면</strong>
+                <p>Push<br>GitHub에 쌓기</p>
+              </article>
+            </div>
+          </article>
+        </section>
+
+        <!-- 오늘 배운 것 정리 -->
+        <section class="section-grid">
+          <article class="feature-card accent-card">
+            <p class="section-label">오늘 한 것</p>
+            <h2>Git 워크플로우 첫 경험</h2>
+            <ul class="bullet-list">
+              <li>레포 초기화 + 첫 커밋</li>
+              <li>코드 망치고 되돌리기 체험</li>
+              <li>GitHub 원격 레포 연결 + Push</li>
+              <li>두 번째 커밋으로 이력 쌓기</li>
+            </ul>
+          </article>
+          <article class="feature-card">
+            <p class="section-label">과제 (선택)</p>
+            <h2>이번 주 안으로</h2>
+            <ul class="bullet-list">
+              <li>HTML에 기능 1개 추가하고 커밋 + push</li>
+              <li>커밋 메시지를 "무엇을 왜 바꿨는지" 한 줄로 써보기</li>
+              <li>GitHub 레포 링크를 조직 채널에 공유</li>
+            </ul>
+            <p class="example-line">핵심 · 완벽한 코드보다 커밋 습관</p>
+          </article>
+        </section>
+
+        <!-- 다음 강의 예고 -->
+        <section class="note-block">
+          <p class="section-label">다음 강의 예고</p>
+          <p>
+            API란 무엇인가<br>
+            fetch()로 외부 데이터 가져오기<br>
+            날씨 · 환율 · 공휴일 데이터를 내 HTML에 붙이기
+          </p>
+        </section>
+
+        <!-- 참고 링크 -->
+        <section class="note-block">
+          <p class="section-label">참고 링크</p>
+          <ul class="bullet-list">
+            <li><a class="text-link" href="https://github.com/orgs/assist-11th/dashboard" target="_blank" rel="noreferrer">assist-11th 조직 공간</a></li>
+            <li><a class="text-link" href="./install-git.html">Git 설치 가이드</a></li>
+            <li><a class="text-link" href="https://git-scm.com/doc" target="_blank" rel="noreferrer">Git 공식 문서</a></li>
+          </ul>
+        </section>
+
+      </main>
+
+      <footer class="footer">
+        <p>실전 1강 · Git / GitHub 버전 관리</p>
+        <p><a href="./index.html">메인으로</a></p>
+      </footer>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
