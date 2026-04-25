@@ -96,6 +96,15 @@ body[data-page="git"] {
   --tone-success: rgba(113, 173, 125, 0.16);
 }
 
+body[data-page="worklog"] {
+  --page-accent: rgba(139, 92, 246, 0.92);
+  --page-ink: rgba(94, 142, 160, 0.9);
+  --page-success: rgba(113, 173, 125, 0.85);
+  --tone-primary: rgba(94, 142, 160, 0.18);
+  --tone-accent: rgba(139, 92, 246, 0.18);
+  --tone-success: rgba(113, 173, 125, 0.16);
+}
+
 body::before {
   position: fixed;
   inset: 0;
