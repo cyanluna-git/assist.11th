@@ -7,54 +7,12 @@ const homeHref = (section) => (page === "home" ? `#${section}` : `./index.html#$
 
 const sidebarGroups = [
   {
-    id: "main",
-    title: "메인",
-    items: [
-      { label: "홈", href: "./index.html" },
-      { label: "핵심 메시지", href: homeHref("message"), sectionId: "message" },
-      { label: "필수 개념", href: homeHref("concepts"), sectionId: "concepts" },
-      { label: "사전 준비", href: homeHref("setup"), sectionId: "setup" },
-      { label: "가입과 설치", href: homeHref("guides"), sectionId: "guides" },
-      { label: "로드맵", href: homeHref("roadmap"), sectionId: "roadmap" },
-      { label: "첫 프로젝트", href: homeHref("project"), sectionId: "project" },
-      { label: "GitHub 운영", href: homeHref("workspace"), sectionId: "workspace" },
-    ],
-  },
-  {
-    id: "setup",
-    title: "가입과 설치",
+    id: "guides",
+    title: "강의",
     items: [
       { label: "최소 부트스트랩", href: "./bootstrap.html" },
-      { label: "계정 가입", href: "./accounts.html" },
-      { label: "Git 설치", href: "./install-git.html" },
-      { label: "Node.js 설치", href: "./install-node.html" },
-      { label: "Python 설치", href: "./install-python.html" },
-      { label: "WSL 설치", href: "./install-wsl.html" },
-      { label: "VS Code 설치", href: "./install-vscode.html" },
-      { label: "Antigravity 설치", href: "./install-antigravity.html" },
-    ],
-  },
-  {
-    id: "weeks",
-    title: "주차별 교안",
-    items: [
-      { label: "1주차 Claude Desktop", href: "./week-1.html" },
-      { label: "2주차 IDE와 API", href: "./week-2.html" },
-      { label: "3주차 Next.js와 배포", href: "./week-3.html" },
-      { label: "4주차 WSL과 CLI", href: "./week-4.html" },
-      { label: "5주차 백엔드와 DB", href: "./week-5.html" },
-    ],
-  },
-  {
-    id: "github",
-    title: "GitHub",
-    items: [
-      { label: "assist-11th 참여 안내", href: "./github-workspace.html" },
-      {
-        label: "assist-11th 조직 바로가기",
-        href: "https://github.com/assist-11th",
-        external: true,
-      },
+      { label: "Git / GitHub", href: "./git-github.html" },
+      { label: "Worklog 스킬", href: "./worklog.html" },
     ],
   },
 ];
@@ -244,11 +202,7 @@ const groupSections = document.querySelectorAll(".sidebar-group");
 const groupToggles = document.querySelectorAll(".sidebar-group-toggle");
 
 const getActiveGroupIds = () => {
-  if (page === "home") return new Set(["main", "weeks"]);
-  if (page.startsWith("week-")) return new Set(["weeks", "setup"]);
-  if (page.startsWith("install-") || page === "accounts") return new Set(["setup", "weeks"]);
-  if (page === "github-workspace") return new Set(["github", "weeks"]);
-  return new Set(["main"]);
+  return new Set(["guides"]);
 };
 
 const activeGroupIds = getActiveGroupIds();
